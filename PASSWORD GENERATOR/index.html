@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="dark"] {
+            --bg: #0d0d0f;
+            --surface: #16161a;
+            --surface2: #1e1e24;
+            --border: #2a2a35;
+            --text: #f0f0f5;
+            --text-muted: #6b6b80;
+            --accent: #7c6bff;
+            --accent-glow: rgba(124, 107, 255, 0.3);
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.1);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+            --yellow: #f59e0b;
+            --yellow-bg: rgba(245, 158, 11, 0.1);
+            --slider-track: #2a2a35;
+            --checkbox-bg: #2a2a35;
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f5f5f7;
+            --surface: #ffffff;
+            --surface2: #f0f0f5;
+            --border: #e0e0ea;
+            --text: #1a1a2e;
+            --text-muted: #8888a0;
+            --accent: #5b47f5;
+            --accent-glow: rgba(91, 71, 245, 0.2);
+            --green: #16a34a;
+            --green-bg: rgba(22, 163, 74, 0.08);
+            --red: #dc2626;
+            --red-bg: rgba(220, 38, 38, 0.08);
+            --yellow: #d97706;
+            --yellow-bg: rgba(217, 119, 6, 0.08);
+            --slider-track: #e0e0ea;
+            --checkbox-bg: #e8e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Syne', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            width: 100%;
+            max-width: 420px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        /* Theme toggle */
+        .theme-toggle {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 4px;
+            display: flex;
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 2px;
+        }
+
+        .theme-btn {
+            width: 32px;
+            height: 28px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .theme-btn.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        /* Password output */
+        .output-section {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .output-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .output-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #password-output {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--text);
+            cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            width: 0;
+        }
+
+        #copy-button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 14px;
+            font-family: 'Syne', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        #copy-button:hover {
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+
+        #copy-button:active {
+            transform: scale(0.93);
+        }
+
+        /* Strength bar */
+        .strength-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .strength-bars {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .strength-bar {
+            height: 4px;
+            flex: 1;
+            border-radius: 99px;
+            background: var(--border);
+            transition: background 0.3s;
+        }
+
+        .strength-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Slider */
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 99px;
+            background: var(--slider-track);
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 0 6px var(--accent-glow);
+        }
+
+        .length-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 3px 10px;
+            border-radius: 6px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        /* Checkboxes */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .option-item {
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .option-item:hover {
+            border-color: var(--accent);
+        }
+
+        .option-item.active {
+            border-color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .option-item input[type="checkbox"] {
+            display: none;
+        }
+
+        .custom-check {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            background: var(--checkbox-bg);
+            border: 1.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s;
+            font-size: 10px;
+        }
+
+        .option-item.active .custom-check {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .option-text {
+            font-size: 0.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Generate button */
+        #generate-button {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Syne', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        #generate-button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 24px var(--accent-glow);
+        }
+
+        #generate-button:active {
+            transform: translateY(0);
+        }
+
+        /* Alert */
+        #alert-message {
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        <div class="title">
+            <div class="title-icon">🔐</div>
+            Generator Sandi
+        </div>
+        <div class="theme-toggle">
+            <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')" title="Dark">🌙</button>
+            <button class="theme-btn" id="btn-light" onclick="setTheme('light')" title="Light">☀️</button>
+        </div>
+    </div>
+
+    <div class="output-section">
+        <div class="output-label">Kata Sandi</div>
+        <div class="output-row">
+            <input type="text" id="password-output" value="Klik Generate" readonly onclick="copyPassword()">
+            <button id="copy-button" onclick="copyPassword()">Salin</button>
+        </div>
+        <div class="strength-row">
+            <div class="strength-bars">
+                <div class="strength-bar" id="bar1"></div>
+                <div class="strength-bar" id="bar2"></div>
+                <div class="strength-bar" id="bar3"></div>
+                <div class="strength-bar" id="bar4"></div>
+            </div>
+            <div class="strength-label" id="strength-label">—</div>
+        </div>
+    </div>
+
+    <div class="section-label">Panjang Sandi</div>
+    <div class="slider-row">
+        <input type="range" id="length" min="8" max="50" value="16">
+        <div class="length-badge"><span id="length-value">16</span></div>
+    </div>
+
+    <div class="section-label">Karakter</div>
+    <div class="options-grid">
+        <label class="option-item active" id="lbl-upper" onclick="toggleOption(this, 'include-uppercase')">
+            <input type="checkbox" id="include-uppercase" checked>
+            <div class="custom-check">✓</div>
+            <div class="option-text">A–Z Kapital</div>
+        </label>
+        <label class="option-item active" id="lbl-lower" onclick="toggleOption(this, 'include-lowercase')">
+            <input type="checkbox" id="include-lowercase" checked>
+            <div class="custom-check">✓</div>
+            <div class="option-text">a–z Kecil</div>
+        </label>
+        <label class="option-item active" id="lbl-num" onclick="toggleOption(this, 'include-numbers')">
+            <input type="checkbox" id="include-numbers" checked>
+            <div class="custom-check">✓</div>
+            <div class="option-text">0–9 Angka</div>
+        </label>
+        <label class="option-item" id="lbl-sym" onclick="toggleOption(this, 'include-symbols')">
+            <input type="checkbox" id="include-symbols">
+            <div class="custom-check"></div>
+            <div class="option-text">!@# Simbol</div>
+        </label>
+    </div>
+
+    <button id="generate-button" onclick="generatePassword()">Buat Kata Sandi</button>
+    <div id="alert-message"></div>
+</div>
+
+<script>
+    const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const numberChars = "0123456789";
+    const symbolChars = "!@#$%^&*()_+-=[]{}|;':\",./<>?";
+
+    const lengthSlider = document.getElementById('length');
+    const lengthValueSpan = document.getElementById('length-value');
+    const passwordOutput = document.getElementById('password-output');
+    const alertMessage = document.getElementById('alert-message');
+
+    lengthSlider.addEventListener('input', () => {
+        lengthValueSpan.textContent = lengthSlider.value;
+        if (passwordOutput.value !== "Klik Generate") generatePassword();
+    });
+
+    function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+        document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+    }
+
+    function toggleOption(label, checkboxId) {
+        const checkbox = document.getElementById(checkboxId);
+        checkbox.checked = !checkbox.checked;
+        const check = label.querySelector('.custom-check');
+        if (checkbox.checked) {
+            label.classList.add('active');
+            check.textContent = '✓';
+        } else {
+            label.classList.remove('active');
+            check.textContent = '';
+        }
+        if (passwordOutput.value !== "Klik Generate") generatePassword();
+    }
+
+    function getRandomChar(str) {
+        return str[Math.floor(Math.random() * str.length)];
+    }
+
+    function shuffleString(str) {
+        const arr = str.split('');
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join('');
+    }
+
+    function updateStrength(password, charTypes) {
+        const len = password.length;
+        let score = 0;
+        if (len >= 12) score++;
+        if (len >= 20) score++;
+        if (charTypes >= 3) score++;
+        if (charTypes === 4) score++;
+
+        const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
+        const labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
+
+        for (let i = 1; i <= 4; i++) {
+            const bar = document.getElementById('bar' + i);
+            bar.style.background = i <= score ? colors[score - 1] : 'var(--border)';
+        }
+        document.getElementById('strength-label').textContent = score > 0 ? labels[score - 1] : '—';
+        document.getElementById('strength-label').style.color = score > 0 ? colors[score - 1] : 'var(--text-muted)';
+    }
+
+    function generatePassword() {
+        const length = parseInt(lengthSlider.value);
+        const includeUppercase = document.getElementById('include-uppercase').checked;
+        const includeLowercase = document.getElementById('include-lowercase').checked;
+        const includeNumbers = document.getElementById('include-numbers').checked;
+        const includeSymbols = document.getElementById('include-symbols').checked;
+
+        let availableChars = "";
+        let guaranteed = [];
+        let charTypes = 0;
+
+        if (includeUppercase) { availableChars += upperCaseChars; guaranteed.push(getRandomChar(upperCaseChars)); charTypes++; }
+        if (includeLowercase) { availableChars += lowerCaseChars; guaranteed.push(getRandomChar(lowerCaseChars)); charTypes++; }
+        if (includeNumbers) { availableChars += numberChars; guaranteed.push(getRandomChar(numberChars)); charTypes++; }
+        if (includeSymbols) { availableChars += symbolChars; guaranteed.push(getRandomChar(symbolChars)); charTypes++; }
+
+        if (!availableChars) {
+            showAlert("Pilih minimal satu jenis karakter!", "error");
+            return;
+        }
+
+        showAlert("", "none");
+        let pwd = guaranteed.join('');
+        for (let i = 0; i < length - guaranteed.length; i++) pwd += getRandomChar(availableChars);
+        pwd = shuffleString(pwd);
+
+        passwordOutput.value = pwd;
+        updateStrength(pwd, charTypes);
+    }
+
+    function copyPassword() {
+        if (!passwordOutput.value || passwordOutput.value === "Klik Generate") {
+            showAlert("Belum ada kata sandi!", "warning"); return;
+        }
+        navigator.clipboard.writeText(passwordOutput.value)
+            .then(() => showAlert("Tersalin! ✅", "success"))
+            .catch(() => showAlert("Gagal menyalin.", "error"));
+    }
+
+    function showAlert(message, type) {
+        if (type === "none") { alertMessage.style.display = "none"; return; }
+        alertMessage.style.display = "block";
+        alertMessage.textContent = message;
+
+        const styles = {
+            success: { bg: 'var(--green-bg)', color: 'var(--green)', border: 'var(--green)' },
+            warning: { bg: 'var(--yellow-bg)', color: 'var(--yellow)', border: 'var(--yellow)' },
+            error: { bg: 'var(--red-bg)', color: 'var(--red)', border: 'var(--red)' },
+        };
+        const s = styles[type];
+        alertMessage.style.background = s.bg;
+        alertMessage.style.color = s.color;
+        alertMessage.style.border = `1px solid ${s.border}`;
+
+        setTimeout(() => alertMessage.style.display = "none", 2500);
+    }
+
+    // Auto-generate on load
+    generatePassword();
+</script>
+</body>
+</html>
