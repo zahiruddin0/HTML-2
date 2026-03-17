@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ML Hero Win Rate Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold:        #f0c040;
+      --gold-bright: #ffe17a;
+      --gold-dim:    #a07820;
+      --ember:       #ff6b35;
+      --green:       #39ff7a;
+      --red:         #ff3d5a;
+      --bg:          #080b14;
+      --surface:     #0d1120;
+      --surface2:    #111828;
+      --border:      rgba(240,192,64,0.18);
+      --border-hi:   rgba(240,192,64,0.5);
+      --cyan:        #38d9f5;
+      --text:        #dce8ff;
+      --text-dim:    rgba(220,232,255,0.45);
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Exo 2', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+      cursor: default;
+    }
+
+    /* ── Ambient background ── */
+    .bg-layer {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .bg-layer::before {
+      content:'';
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 80% 60% at 15% 25%, rgba(240,192,64,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 85% 70%, rgba(56,217,245,0.05) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(255,107,53,0.06) 0%, transparent 50%);
+    }
+    .bg-layer::after {
+      content:'';
+      position:absolute; inset:0;
+      background-image:
+        linear-gradient(rgba(240,192,64,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,192,64,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 100%);
+      animation: gridShimmer 6s ease-in-out infinite;
+    }
+    @keyframes gridShimmer {
+      0%,100%{opacity:.4} 50%{opacity:.9}
+    }
+
+    /* ── Floating particles ── */
+    #particles { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .particle {
+      position:absolute;
+      border-radius:50%;
+      animation: floatUp linear infinite;
+      opacity:0;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity:0; }
+      10%  { opacity:1; }
+      90%  { opacity:.6; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity:0; }
+    }
+
+    /* ── Main container ── */
+    .container {
+      width:100%; max-width:480px;
+      padding: 28px 20px 40px;
+      position:relative; z-index:1;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align:center;
+      margin-bottom: 32px;
+      animation: slideDown .7s cubic-bezier(.16,1,.3,1) both;
+    }
+
+    .header-crown {
+      font-size: 32px;
+      line-height:1;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 12px rgba(240,192,64,0.7));
+      animation: crownPulse 3s ease-in-out infinite;
+    }
+    @keyframes crownPulse {
+      0%,100%{ filter: drop-shadow(0 0 12px rgba(240,192,64,0.7)); transform:scale(1); }
+      50%    { filter: drop-shadow(0 0 24px rgba(240,192,64,1));   transform:scale(1.08); }
+    }
+
+    .header-eyebrow {
+      font-family:'Rajdhani', sans-serif;
+      font-size:11px; letter-spacing:5px;
+      color: var(--gold-dim);
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .header h1 {
+      font-family:'Cinzel', serif;
+      font-size:26px; font-weight:900;
+      letter-spacing:3px;
+      background: linear-gradient(135deg, var(--gold-dim), var(--gold-bright), var(--gold));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      filter: drop-shadow(0 2px 12px rgba(240,192,64,0.35));
+      line-height:1.1;
+    }
+
+    .header-line {
+      display:flex; align-items:center; gap:10px;
+      margin: 12px auto 0; max-width:280px;
+    }
+    .header-line-bar {
+      flex:1; height:1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+    .header-line span {
+      font-family:'Rajdhani'; font-size:10px;
+      letter-spacing:3px; color:var(--text-dim);
+      text-transform:uppercase;
+    }
+
+    /* ── Input Card ── */
+    .input-card {
+      background: linear-gradient(160deg, rgba(17,24,40,0.98), rgba(8,11,20,0.99));
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(240,192,64,0.05),
+        0 24px 64px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(240,192,64,0.1);
+      animation: slideUp .7s cubic-bezier(.16,1,.3,1) both .1s;
+      position:relative;
+    }
+
+    .input-card::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, transparent 5%, var(--gold-dim) 30%, var(--gold-bright) 50%, var(--gold-dim) 70%, transparent 95%);
+    }
+
+    .card-title-bar {
+      padding: 16px 22px 14px;
+      border-bottom: 1px solid rgba(240,192,64,0.08);
+      display:flex; align-items:center; gap:10px;
+    }
+
+    .card-title-icon {
+      width:32px; height:32px; border-radius:8px;
+      background: linear-gradient(135deg, rgba(240,192,64,0.2), rgba(240,192,64,0.05));
+      border:1px solid rgba(240,192,64,0.25);
+      display:flex; align-items:center; justify-content:center;
+      font-size:15px;
+    }
+
+    .card-title-text {
+      font-family:'Cinzel', serif;
+      font-size:12px; letter-spacing:2px;
+      color: var(--gold);
+      text-transform:uppercase;
+    }
+
+    /* ── Stat rows ── */
+    .stat-rows { padding: 8px 0; }
+
+    .stat-row {
+      display:flex; align-items:center;
+      justify-content:space-between;
+      padding: 15px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background .2s;
+      gap: 12px;
+    }
+    .stat-row:last-of-type { border-bottom:none; }
+    .stat-row:hover { background: rgba(240,192,64,0.02); }
+
+    .stat-left { display:flex; align-items:center; gap:12px; }
+
+    .stat-icon {
+      width:38px; height:38px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:17px; flex-shrink:0;
+      position:relative;
+      transition: transform .2s;
+    }
+    .stat-row:hover .stat-icon { transform: scale(1.08); }
+
+    .icon-power {
+      background: radial-gradient(circle at 30% 30%, rgba(240,192,64,0.25), rgba(240,192,64,0.05));
+      border:1px solid rgba(240,192,64,0.3);
+      box-shadow: 0 0 12px rgba(240,192,64,0.1);
+    }
+    .icon-match {
+      background: radial-gradient(circle at 30% 30%, rgba(56,217,245,0.2), rgba(56,217,245,0.04));
+      border:1px solid rgba(56,217,245,0.25);
+      box-shadow: 0 0 12px rgba(56,217,245,0.08);
+    }
+    .icon-wr {
+      background: radial-gradient(circle at 30% 30%, rgba(57,255,122,0.2), rgba(57,255,122,0.04));
+      border:1px solid rgba(57,255,122,0.25);
+      box-shadow: 0 0 12px rgba(57,255,122,0.08);
+    }
+
+    .stat-info {}
+    .stat-label {
+      font-family:'Rajdhani'; font-size:10px;
+      letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--text-dim); font-weight:600;
+      line-height:1;
+    }
+    .stat-sublabel {
+      font-size:11px; color:rgba(220,232,255,0.25);
+      margin-top:3px; font-style:italic;
+    }
+
+    .stat-input-wrap { display:flex; align-items:center; gap:5px; }
+
+    .stat-input {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius:10px;
+      padding: 9px 13px;
+      font-family:'Rajdhani'; font-size:20px; font-weight:700;
+      color:var(--text);
+      width:130px; text-align:right;
+      outline:none;
+      transition: all .25s;
+      -moz-appearance:textfield;
+    }
+    .stat-input::-webkit-inner-spin-button,
+    .stat-input::-webkit-outer-spin-button { -webkit-appearance:none; }
+
+    .stat-input.inp-power { color:var(--gold); }
+    .stat-input.inp-match { color:var(--cyan); }
+    .stat-input.inp-wr    { color:var(--green); }
+
+    .stat-input:focus {
+      border-color: rgba(240,192,64,0.45);
+      background: rgba(240,192,64,0.04);
+      box-shadow: 0 0 0 3px rgba(240,192,64,0.07), 0 0 20px rgba(240,192,64,0.05);
+    }
+    .stat-input::placeholder { color:rgba(220,232,255,0.12); font-size:13px; font-weight:400; }
+
+    .wr-pct {
+      font-family:'Rajdhani'; font-size:16px; font-weight:700;
+      color:rgba(57,255,122,0.5);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display:flex; align-items:center; gap:14px;
+      padding: 18px 22px 14px;
+    }
+    .div-line { flex:1; height:1px; background: linear-gradient(90deg,transparent,rgba(240,192,64,0.2),transparent); }
+    .div-text { font-family:'Rajdhani'; font-size:10px; letter-spacing:3px; color:var(--text-dim); text-transform:uppercase; }
+
+    /* ── Calculate button ── */
+    .btn-calc {
+      margin: 0 22px 22px;
+      width: calc(100% - 44px);
+      padding: 15px;
+      background: linear-gradient(135deg, #c8980a 0%, #f0c040 40%, #ffe17a 60%, #c8980a 100%);
+      background-size: 200% 100%;
+      border:none; border-radius:12px;
+      font-family:'Cinzel', serif;
+      font-size:13px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase;
+      color: #1a0e00;
+      cursor:pointer;
+      transition: all .3s ease;
+      box-shadow: 0 4px 20px rgba(240,192,64,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
+      position:relative; overflow:hidden;
+    }
+    .btn-calc::after {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform .5s ease;
+    }
+    .btn-calc:hover {
+      background-position: 100% 0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(240,192,64,0.5), 0 1px 0 rgba(255,255,255,0.3) inset;
+    }
+    .btn-calc:hover::after { transform: translateX(100%); }
+    .btn-calc:active { transform: translateY(0); box-shadow: 0 2px 12px rgba(240,192,64,0.3); }
+
+    /* ── Error ── */
+    .error-msg {
+      display:none;
+      margin: 0 22px 18px;
+      background: rgba(255,61,90,0.08);
+      border:1px solid rgba(255,61,90,0.3);
+      border-left:3px solid var(--red);
+      border-radius:8px;
+      padding:10px 14px;
+      font-family:'Rajdhani'; font-size:13px; font-weight:600;
+      color:var(--red); letter-spacing:.5px;
+    }
+    .error-msg.show { display:block; }
+
+    /* ── Result Panel ── */
+    .result-panel { display:none; margin-top:18px; }
+    .result-panel.show { display:block; animation: slideUp .5s cubic-bezier(.16,1,.3,1) both; }
+
+    /* Result card */
+    .result-card {
+      background: linear-gradient(160deg, rgba(17,24,40,0.98), rgba(8,11,20,0.99));
+      border:1px solid var(--border);
+      border-radius:20px; overflow:hidden;
+      box-shadow: 0 0 0 1px rgba(240,192,64,0.05), 0 24px 64px rgba(0,0,0,0.6);
+      position:relative;
+    }
+    .result-card::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, transparent 5%, var(--gold-dim) 30%, var(--gold-bright) 50%, var(--gold-dim) 70%, transparent 95%);
+    }
+
+    /* Result header */
+    .result-head {
+      padding:18px 22px 16px;
+      background: linear-gradient(135deg, rgba(240,192,64,0.08), rgba(56,217,245,0.03));
+      border-bottom:1px solid rgba(240,192,64,0.08);
+      display:flex; align-items:center; gap:14px;
+    }
+    .result-avatar {
+      width:50px; height:50px; border-radius:12px;
+      background: linear-gradient(135deg, rgba(240,192,64,0.2), rgba(56,217,245,0.1));
+      border:2px solid rgba(240,192,64,0.3);
+      display:flex; align-items:center; justify-content:center;
+      font-size:24px;
+      box-shadow: 0 0 20px rgba(240,192,64,0.15);
+    }
+    .result-head-info {}
+    .result-head-title {
+      font-family:'Cinzel'; font-size:13px; font-weight:700;
+      color:var(--gold); letter-spacing:2px;
+    }
+    .result-head-sub {
+      font-size:11px; color:var(--text-dim);
+      margin-top:3px; letter-spacing:1px;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:1px; background:rgba(255,255,255,0.04);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .stat-cell {
+      background: var(--surface);
+      padding:16px 18px;
+      position:relative; overflow:hidden;
+    }
+    .stat-cell::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:2px;
+      opacity:0;
+      transition: opacity .3s;
+    }
+    .stat-cell:hover::before { opacity:1; }
+    .sc-match::before  { background: var(--cyan); }
+    .sc-win::before    { background: var(--green); }
+    .sc-lose::before   { background: var(--red); }
+    .sc-power::before  { background: var(--gold); }
+
+    .sc-key {
+      font-family:'Rajdhani'; font-size:10px; font-weight:600;
+      letter-spacing:2px; text-transform:uppercase;
+      color:var(--text-dim); margin-bottom:6px;
+    }
+    .sc-val {
+      font-family:'Cinzel'; font-size:24px; font-weight:700;
+      line-height:1;
+    }
+    .sc-match .sc-val  { color:var(--cyan); text-shadow:0 0 16px rgba(56,217,245,0.4); }
+    .sc-win .sc-val    { color:var(--green); text-shadow:0 0 16px rgba(57,255,122,0.4); }
+    .sc-lose .sc-val   { color:var(--red); text-shadow:0 0 16px rgba(255,61,90,0.4); }
+    .sc-power .sc-val  { color:var(--gold); text-shadow:0 0 16px rgba(240,192,64,0.4); }
+
+    /* ── Win Rate showcase ── */
+    .wr-showcase {
+      padding:28px 22px 22px;
+      text-align:center;
+      position:relative; overflow:hidden;
+    }
+    .wr-showcase::before {
+      content:'';
+      position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(240,192,64,0.07), transparent);
+    }
+
+    .wr-eyebrow {
+      font-family:'Rajdhani'; font-size:10px;
+      letter-spacing:4px; text-transform:uppercase;
+      color:var(--text-dim); margin-bottom:10px;
+    }
+
+    .wr-number-wrap {
+      display:inline-flex; align-items:flex-start;
+      gap:4px; line-height:1;
+      margin-bottom:14px;
+    }
+    .wr-number {
+      font-family:'Cinzel'; font-size:72px; font-weight:900;
+      line-height:.9;
+      background: linear-gradient(170deg, var(--gold-bright) 20%, var(--gold) 60%, var(--gold-dim) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      filter: drop-shadow(0 0 20px rgba(240,192,64,0.4));
+      animation: numPop .6s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes numPop {
+      from { opacity:0; transform:scale(.6) translateY(10px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+    .wr-pct-big {
+      font-family:'Cinzel'; font-size:28px; font-weight:700;
+      color:var(--gold-dim); margin-top:8px;
+    }
+
+    /* Progress bar */
+    .wr-bar-wrap {
+      margin: 0 0 16px;
+      height:6px; border-radius:3px;
+      background: rgba(255,255,255,0.05);
+      overflow:hidden; position:relative;
+    }
+    .wr-bar {
+      height:100%; border-radius:3px;
+      width:0%; transition: width 1.2s cubic-bezier(.4,0,.2,1);
+      position:relative;
+    }
+    .wr-bar::after {
+      content:'';
+      position:absolute; top:0; right:0;
+      width:30px; height:100%;
+      background: rgba(255,255,255,0.5);
+      filter:blur(6px);
+    }
+
+    /* Tier badge */
+    .tier-badge {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 20px; border-radius:999px;
+      font-family:'Cinzel'; font-size:11px; font-weight:700;
+      letter-spacing:2px; text-transform:uppercase;
+      margin-bottom:4px;
+    }
+
+    /* ── Formula block ── */
+    .formula-block {
+      margin:16px 0 0;
+      background: rgba(0,0,0,0.35);
+      border:1px solid rgba(240,192,64,0.1);
+      border-radius:14px; padding:16px 18px;
+    }
+    .formula-block-title {
+      font-family:'Rajdhani'; font-size:10px;
+      letter-spacing:3px; text-transform:uppercase;
+      color:var(--text-dim); margin-bottom:12px;
+    }
+    .formula-row {
+      display:flex; align-items:center; gap:10px;
+      padding:6px 0;
+      border-bottom:1px solid rgba(255,255,255,0.03);
+      font-family:'Rajdhani'; font-size:14px; font-weight:600;
+      color:rgba(220,232,255,.65); letter-spacing:.3px;
+    }
+    .formula-row:last-child { border-bottom:none; }
+    .formula-row .icon { font-size:15px; width:20px; text-align:center; flex-shrink:0; }
+    .fc { color:var(--cyan); }
+    .fg { color:var(--green); }
+    .fr { color:var(--red); }
+    .fo { color:var(--gold-bright); font-weight:700; }
+
+    /* ── Reset button ── */
+    .btn-reset {
+      width:100%; margin-top:12px; padding:12px;
+      background:transparent;
+      border:1px solid rgba(220,232,255,0.1);
+      border-radius:10px;
+      font-family:'Rajdhani'; font-size:12px; font-weight:600;
+      letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--text-dim); cursor:pointer;
+      transition: all .3s;
+    }
+    .btn-reset:hover {
+      border-color:rgba(240,192,64,0.25);
+      color:var(--gold-dim);
+      background:rgba(240,192,64,0.03);
+    }
+
+    /* ── Nota / Guide section ── */
+    .nota-section {
+      margin-top:18px;
+      background: linear-gradient(160deg, rgba(17,24,40,0.95), rgba(8,11,20,0.97));
+      border:1px solid var(--border);
+      border-radius:20px; overflow:hidden;
+      box-shadow: 0 0 0 1px rgba(240,192,64,0.04), 0 16px 48px rgba(0,0,0,0.5);
+    }
+
+    .nota-header {
+      padding:14px 20px;
+      background: linear-gradient(135deg, rgba(240,192,64,0.08), transparent);
+      border-bottom:1px solid rgba(240,192,64,0.08);
+      display:flex; align-items:center; gap:10px;
+    }
+    .nota-header-icon { font-size:16px; }
+    .nota-header-title {
+      font-family:'Cinzel'; font-size:11px; font-weight:700;
+      letter-spacing:2px; color:var(--gold);
+      text-transform:uppercase;
+    }
+
+    .nota-body { padding:18px 20px; display:flex; flex-direction:column; gap:20px; }
+
+    .nota-block {}
+    .nota-subtitle {
+      font-family:'Rajdhani'; font-size:13px; font-weight:700;
+      letter-spacing:1px; color:var(--gold-bright);
+      margin-bottom:10px;
+      display:flex; align-items:center; gap:6px;
+    }
+
+    .nota-text {
+      font-size:12.5px; line-height:1.7; color:var(--text-dim);
+      margin-bottom:10px;
+    }
+
+    .nota-items { display:flex; flex-direction:column; gap:8px; }
+    .nota-item {
+      display:flex; gap:10px; align-items:flex-start;
+      font-size:12.5px; color:var(--text-dim); line-height:1.55;
+    }
+    .ni-dot { font-size:15px; flex-shrink:0; margin-top:1px; }
+    .ni-gold  { color:var(--gold); }
+    .ni-cyan  { color:var(--cyan); }
+    .ni-green { color:var(--green); }
+
+    /* Formula inside nota */
+    .nota-formula {
+      background: rgba(0,0,0,0.3);
+      border:1px solid rgba(240,192,64,0.1);
+      border-left:3px solid var(--gold-dim);
+      border-radius:10px; padding:14px 16px;
+    }
+    .nf-row {
+      display:flex; align-items:center; gap:8px;
+      flex-wrap:wrap; margin-bottom:4px;
+    }
+    .nf-label {
+      font-family:'Rajdhani'; font-size:12px; font-weight:700;
+      color:var(--text-dim); letter-spacing:1px; min-width:115px;
+    }
+    .nf-eq { font-family:'Cinzel'; font-size:12px; color:rgba(220,232,255,.25); }
+    .nf-val { font-family:'Rajdhani'; font-size:13px; font-weight:600; color:var(--cyan); }
+    .nf-eg  { font-size:11.5px; color:rgba(220,232,255,.35); margin-top:5px; }
+    .nf-sep { height:1px; background:rgba(255,255,255,.05); margin:10px 0; }
+
+    /* Tier table */
+    .tier-table { display:flex; flex-direction:column; gap:6px; }
+    .tier-row {
+      display:flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:8px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.04);
+      transition: background .2s;
+    }
+    .tier-row:hover { background:rgba(240,192,64,0.03); }
+    .tr-pct {
+      font-family:'Cinzel'; font-size:11px; font-weight:700;
+      padding:3px 10px; border-radius:8px;
+      min-width:70px; text-align:center; flex-shrink:0;
+    }
+    .tr-desc {
+      font-size:12px; color:var(--text-dim); line-height:1.4;
+    }
+
+    /* Tips */
+    .nota-tip {
+      background: linear-gradient(135deg, rgba(56,217,245,0.05), rgba(57,255,122,0.03));
+      border:1px solid rgba(56,217,245,0.15);
+      border-left:3px solid var(--cyan);
+      border-radius:10px; padding:13px 15px;
+      font-size:12.5px; color:var(--text-dim); line-height:1.6;
+    }
+    .nota-tip strong { color:var(--cyan); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align:center; margin-top:22px; padding-bottom:10px;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+    }
+    .footer-line {
+      width:80px; height:1px;
+      background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    }
+    .footer-text {
+      font-family:'Rajdhani'; font-size:10px;
+      letter-spacing:3px; color:rgba(220,232,255,.2);
+      text-transform:uppercase;
+    }
+
+    /* ── Animations ── */
+    @keyframes slideDown {
+      from { opacity:0; transform:translateY(-24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── Media Queries ── */
+    @media (max-width:360px) {
+      .container { padding:16px 14px 32px; }
+      .header h1 { font-size:20px; }
+      .stat-input { width:108px; font-size:17px; }
+      .wr-number { font-size:56px; }
+      .sc-val { font-size:20px; }
+      .btn-calc { font-size:11px; padding:13px; letter-spacing:2px; }
+      .stat-cell { padding:13px 14px; }
+      .formula-row { font-size:12.5px; }
+      .nf-label { min-width:95px; }
+    }
+
+    @media (min-width:361px) and (max-width:480px) {
+      .container { padding:20px 16px 36px; }
+      .header h1 { font-size:22px; }
+      .stat-input { width:120px; font-size:18px; }
+      .wr-number { font-size:64px; }
+    }
+
+    @media (min-width:481px) and (max-width:768px) {
+      .container { max-width:500px; padding:26px 22px 40px; }
+      .header h1 { font-size:26px; }
+      .stat-input { width:140px; font-size:20px; }
+      .wr-number { font-size:76px; }
+      .sc-val { font-size:26px; }
+    }
+
+    @media (min-width:769px) {
+      body { align-items:flex-start; padding-top:20px; }
+      .container { max-width:520px; padding:32px 24px 48px; }
+      .header h1 { font-size:30px; }
+      .header-crown { font-size:38px; }
+      .stat-input { width:150px; font-size:21px; }
+      .stat-icon { width:42px; height:42px; font-size:19px; }
+      .stat-row { padding:17px 24px; }
+      .btn-calc { margin:0 24px 24px; width:calc(100% - 48px); font-size:14px; padding:17px; }
+      .wr-number { font-size:84px; }
+      .wr-pct-big { font-size:32px; }
+      .sc-val { font-size:28px; }
+      .result-head { padding:20px 24px 18px; }
+      .wr-showcase { padding:32px 24px 24px; }
+      .formula-block { padding:18px 22px; }
+      .formula-row { font-size:15px; }
+      .nota-body { padding:20px 22px; }
+      .nota-text, .nota-item, .tr-desc, .nota-tip { font-size:13px; }
+      .card-title-bar { padding:18px 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-layer"></div>
+  <div id="particles"></div>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <div class="header-crown">👑</div>
+      <div class="header-eyebrow">Mobile Legends Bang Bang</div>
+      <h1>Hero Win Rate</h1>
+      <div class="header-line">
+        <div class="header-line-bar"></div>
+        <span>Calculator</span>
+        <div class="header-line-bar"></div>
+      </div>
+    </div>
+
+    <!-- Input Card -->
+    <div class="input-card">
+      <div class="card-title-bar">
+        <div class="card-title-icon">🧙</div>
+        <div class="card-title-text">Masukkan Stats Hero</div>
+      </div>
+
+      <div class="stat-rows">
+        <div class="stat-row">
+          <div class="stat-left">
+            <div class="stat-icon icon-power">⚡</div>
+            <div class="stat-info">
+              <div class="stat-label">Hero Power</div>
+              <div class="stat-sublabel">tahap kemahiran</div>
+            </div>
+          </div>
+          <input class="stat-input inp-power" id="heroPower" type="number" placeholder="cth: 1000" min="0"/>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-left">
+            <div class="stat-icon icon-match">⚔️</div>
+            <div class="stat-info">
+              <div class="stat-label">Pertandingan</div>
+              <div class="stat-sublabel">jumlah match</div>
+            </div>
+          </div>
+          <input class="stat-input inp-match" id="matchTotal" type="number" placeholder="cth: 110" min="1"/>
+        </div>
+
+        <div class="stat-row">
+          <div class="stat-left">
+            <div class="stat-icon icon-wr">📊</div>
+            <div class="stat-info">
+              <div class="stat-label">Win Rate</div>
+              <div class="stat-sublabel">peratusan menang</div>
+            </div>
+          </div>
+          <div class="stat-input-wrap">
+            <input class="stat-input inp-wr" id="winRate" type="number" placeholder="cth: 97.3" min="0" max="100" step="0.1"/>
+            <span class="wr-pct">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider">
+        <div class="div-line"></div>
+        <div class="div-text">Kira Sekarang</div>
+        <div class="div-line"></div>
+      </div>
+
+      <button class="btn-calc" onclick="calculate()">⚡ Kira Win &amp; Lose</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Result Panel -->
+    <div class="result-panel" id="resultPanel">
+      <div class="result-card">
+
+        <div class="result-head">
+          <div class="result-avatar">🏆</div>
+          <div class="result-head-info">
+            <div class="result-head-title">Keputusan Hero</div>
+            <div class="result-head-sub">Berdasarkan stats yang dimasukkan</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-cell sc-power">
+            <div class="sc-key">Hero Power</div>
+            <div class="sc-val" id="r-power">—</div>
+          </div>
+          <div class="stat-cell sc-match">
+            <div class="sc-key">Pertandingan</div>
+            <div class="sc-val" id="r-match">—</div>
+          </div>
+          <div class="stat-cell sc-win">
+            <div class="sc-key">✅ Menang</div>
+            <div class="sc-val" id="r-win">—</div>
+          </div>
+          <div class="stat-cell sc-lose">
+            <div class="sc-key">❌ Kalah</div>
+            <div class="sc-val" id="r-lose">—</div>
+          </div>
+        </div>
+
+        <div class="wr-showcase">
+          <div class="wr-eyebrow">🏅 Win Rate Keseluruhan</div>
+          <div class="wr-number-wrap">
+            <div class="wr-number" id="r-wr">0</div>
+            <div class="wr-pct-big">%</div>
+          </div>
+          <div class="wr-bar-wrap">
+            <div class="wr-bar" id="wrBar"></div>
+          </div>
+          <div class="tier-badge" id="tierBadge"></div>
+        </div>
+
+        <div style="padding:0 18px 18px">
+          <div class="formula-block">
+            <div class="formula-block-title">📐 Cara Pengiraan</div>
+            <div class="formula-row">
+              <span class="icon">⚔️</span>
+              <span>Pertandingan: <span class="fc" id="f-match">—</span></span>
+            </div>
+            <div class="formula-row">
+              <span class="icon">📊</span>
+              <span>Win Rate: <span class="fg" id="f-wr">—</span>%</span>
+            </div>
+            <div class="formula-row">
+              <span class="icon">✅</span>
+              <span>Win = <span class="fc" id="f-m2">—</span> × <span class="fg" id="f-wr2">—</span>% ÷ 100 = <span class="fo" id="f-win">—</span></span>
+            </div>
+            <div class="formula-row">
+              <span class="icon">❌</span>
+              <span>Lose = <span class="fc" id="f-m3">—</span> − <span class="fo" id="f-win2">—</span> = <span class="fr" id="f-lose">—</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-reset" onclick="resetAll()">↩ Reset Semula</button>
+    </div>
+
+    <!-- Nota / Guide -->
+    <div class="nota-section">
+      <div class="nota-header">
+        <span class="nota-header-icon">📖</span>
+        <span class="nota-header-title">Panduan Cara Kiraan</span>
+      </div>
+
+      <div class="nota-body">
+
+        <div class="nota-block">
+          <div class="nota-subtitle">🎮 Apa itu stats dalam ML?</div>
+          <div class="nota-text">Dalam Mobile Legends, setiap hero mempunyai 3 stats utama yang dipaparkan dalam kad hero:</div>
+          <div class="nota-items">
+            <div class="nota-item">
+              <span class="ni-dot">⚡</span>
+              <span><strong class="ni-gold">Hero Power</strong> — Menunjukkan tahap kemahiran kamu dengan hero tersebut. Makin tinggi, makin mahir.</span>
+            </div>
+            <div class="nota-item">
+              <span class="ni-dot">⚔️</span>
+              <span><strong class="ni-cyan">Pertandingan</strong> — Jumlah keseluruhan perlawanan yang telah kamu mainkan dengan hero itu.</span>
+            </div>
+            <div class="nota-item">
+              <span class="ni-dot">📊</span>
+              <span><strong class="ni-green">Win Rate (%)</strong> — Peratusan berapa kerap kamu menang daripada semua perlawanan.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-block">
+          <div class="nota-subtitle">🧮 Bagaimana cara kira Win &amp; Lose?</div>
+          <div class="nota-text">ML hanya tunjukkan Win Rate dalam %, jadi kita kira balik jumlah menang dan kalah:</div>
+          <div class="nota-formula">
+            <div class="nf-row">
+              <span class="nf-label">Jumlah Menang</span>
+              <span class="nf-eq">=</span>
+              <span class="nf-val">Pertandingan × Win Rate ÷ 100</span>
+            </div>
+            <div class="nf-eg">Contoh: 110 × 97.3 ÷ 100 = <strong style="color:var(--green)">107 menang</strong></div>
+            <div class="nf-sep"></div>
+            <div class="nf-row">
+              <span class="nf-label">Jumlah Kalah</span>
+              <span class="nf-eq">=</span>
+              <span class="nf-val">Pertandingan − Jumlah Menang</span>
+            </div>
+            <div class="nf-eg">Contoh: 110 − 107 = <strong style="color:var(--red)">3 kalah</strong></div>
+          </div>
+        </div>
+
+        <div class="nota-block">
+          <div class="nota-subtitle">🏅 Maksud tahap Win Rate</div>
+          <div class="tier-table">
+            <div class="tier-row">
+              <span class="tr-pct" style="background:rgba(240,192,64,0.15);border:1px solid rgba(240,192,64,0.4);color:var(--gold)">90%+</span>
+              <span class="tr-desc">🌟 <strong style="color:var(--gold)">Mythic Glory</strong> — Luar biasa! Hampir menang setiap perlawanan.</span>
+            </div>
+            <div class="tier-row">
+              <span class="tr-pct" style="background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.3);color:var(--gold-bright)">80–89%</span>
+              <span class="tr-desc">👑 <strong style="color:var(--gold-bright)">Mythic</strong> — Sangat bagus. Hero utama kamu!</span>
+            </div>
+            <div class="tier-row">
+              <span class="tr-pct" style="background:rgba(56,217,245,0.1);border:1px solid rgba(56,217,245,0.3);color:var(--cyan)">65–79%</span>
+              <span class="tr-desc">💎 <strong style="color:var(--cyan)">Legend</strong> — Baik. Kamu mahir dengan hero ini.</span>
+            </div>
+            <div class="tier-row">
+              <span class="tr-pct" style="background:rgba(150,50,255,0.1);border:1px solid rgba(150,50,255,0.3);color:#cc88ff">50–64%</span>
+              <span class="tr-desc">⚔️ <strong style="color:#cc88ff">Epic</strong> — Sederhana. Masih boleh ditingkatkan.</span>
+            </div>
+            <div class="tier-row">
+              <span class="tr-pct" style="background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.3);color:var(--red)">Bawah 50%</span>
+              <span class="tr-desc">🛡️ <strong style="color:var(--red)">Perlu Latihan</strong> — Teruskan berlatih!</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="nota-tip">
+          💡 <strong>Tips Naik Rank:</strong> Win Rate melebihi <strong>60%</strong> bermakna kamu lebih kerap menang berbanding kalah. Fokus pada hero yang Win Rate kamu tinggi untuk naik rank dengan lebih cepat dan konsisten!
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-line"></div>
+      <div class="footer-text">Mobile Legends · Hero Stat Calculator</div>
+      <div class="footer-line"></div>
+    </div>
+
+  </div><!-- end container -->
+
+  <script>
+    /* ── Particles ── */
+    (function(){
+      const c = document.getElementById('particles');
+      const colors = ['rgba(240,192,64,', 'rgba(56,217,245,', 'rgba(57,255,122,', 'rgba(255,107,53,'];
+      for(let i=0;i<28;i++){
+        const p = document.createElement('div');
+        p.className = 'particle';
+        const size = Math.random()*3+1.5;
+        const col  = colors[Math.floor(Math.random()*colors.length)];
+        const op   = (Math.random()*.4+.1).toFixed(2);
+        p.style.cssText = `
+          width:${size}px; height:${size}px;
+          left:${Math.random()*100}%;
+          background:${col+op});
+          box-shadow:0 0 ${size*3}px ${col}0.6);
+          animation-duration:${Math.random()*18+10}s;
+          animation-delay:-${Math.random()*20}s;
+        `;
+        c.appendChild(p);
+      }
+    })();
+
+    /* ── Calculate ── */
+    function calculate(){
+      const power = document.getElementById('heroPower').value;
+      const match = parseInt(document.getElementById('matchTotal').value);
+      const wr    = parseFloat(document.getElementById('winRate').value);
+      const err   = document.getElementById('errorMsg');
+      const panel = document.getElementById('resultPanel');
+
+      if(!match || isNaN(wr)){
+        err.textContent='⚠ Sila isi Pertandingan dan Win Rate!';
+        err.classList.add('show'); panel.classList.remove('show'); return;
+      }
+      if(match<=0||wr<0||wr>100){
+        err.textContent='⚠ Nilai tidak sah. Win Rate mestilah antara 0–100.';
+        err.classList.add('show'); panel.classList.remove('show'); return;
+      }
+      err.classList.remove('show');
+
+      const win  = Math.round(match*(wr/100));
+      const lose = match - win;
+
+      document.getElementById('r-power').textContent = power ? parseInt(power).toLocaleString() : '—';
+      document.getElementById('r-match').textContent = match;
+      document.getElementById('r-win').textContent   = win;
+      document.getElementById('r-lose').textContent  = lose;
+
+      /* Win rate number colour */
+      const wrEl = document.getElementById('r-wr');
+      wrEl.textContent = wr;
+      let wrGrad, barGrad;
+      if(wr>=80){
+        wrGrad='linear-gradient(170deg,#ffe17a 20%,#f0c040 60%,#a07820 100%)';
+        barGrad='linear-gradient(90deg,#a07820,#f0c040,#ffe17a)';
+      } else if(wr>=60){
+        wrGrad='linear-gradient(170deg,#9fffbf 20%,#39ff7a 60%,#00a840 100%)';
+        barGrad='linear-gradient(90deg,#00a840,#39ff7a)';
+      } else if(wr>=50){
+        wrGrad='linear-gradient(170deg,#aaf0ff 20%,#38d9f5 60%,#0090b0 100%)';
+        barGrad='linear-gradient(90deg,#0090b0,#38d9f5)';
+      } else {
+        wrGrad='linear-gradient(170deg,#ff9aa8 20%,#ff3d5a 60%,#aa0020 100%)';
+        barGrad='linear-gradient(90deg,#aa0020,#ff3d5a)';
+      }
+      wrEl.style.backgroundImage=wrGrad;
+      wrEl.style.webkitBackgroundClip='text';
+      wrEl.style.webkitTextFillColor='transparent';
+      wrEl.style.backgroundClip='text';
+      wrEl.style.filter=`drop-shadow(0 0 20px ${wr>=80?'rgba(240,192,64,.5)':wr>=60?'rgba(57,255,122,.4)':wr>=50?'rgba(56,217,245,.4)':'rgba(255,61,90,.4)'})`;
+
+      /* Progress bar */
+      const bar = document.getElementById('wrBar');
+      bar.style.width='0%'; bar.style.background=barGrad;
+      setTimeout(()=>{ bar.style.width=wr+'%'; },60);
+
+      /* Tier badge */
+      const tb = document.getElementById('tierBadge');
+      if(wr>=90){
+        tb.textContent='🌟 Mythic Glory';
+        tb.style.cssText='background:rgba(240,192,64,0.15);border:1px solid rgba(240,192,64,0.5);color:#f0c040;';
+      } else if(wr>=80){
+        tb.textContent='👑 Mythic';
+        tb.style.cssText='background:rgba(240,192,64,0.1);border:1px solid rgba(240,192,64,0.35);color:#ffe17a;';
+      } else if(wr>=65){
+        tb.textContent='💎 Legend';
+        tb.style.cssText='background:rgba(56,217,245,0.1);border:1px solid rgba(56,217,245,0.35);color:#38d9f5;';
+      } else if(wr>=50){
+        tb.textContent='⚔️ Epic';
+        tb.style.cssText='background:rgba(150,50,255,0.1);border:1px solid rgba(150,50,255,0.35);color:#cc88ff;';
+      } else {
+        tb.textContent='🛡️ Perlu Latihan';
+        tb.style.cssText='background:rgba(255,61,90,0.1);border:1px solid rgba(255,61,90,0.35);color:#ff3d5a;';
+      }
+
+      /* Formula */
+      document.getElementById('f-match').textContent = match;
+      document.getElementById('f-wr').textContent    = wr;
+      document.getElementById('f-m2').textContent    = match;
+      document.getElementById('f-wr2').textContent   = wr;
+      document.getElementById('f-win').textContent   = win;
+      document.getElementById('f-m3').textContent    = match;
+      document.getElementById('f-win2').textContent  = win;
+      document.getElementById('f-lose').textContent  = lose;
+
+      panel.classList.add('show');
+      setTimeout(()=>{ panel.scrollIntoView({behavior:'smooth',block:'nearest'}); },100);
+    }
+
+    function resetAll(){
+      ['heroPower','matchTotal','winRate'].forEach(id=>document.getElementById(id).value='');
+      document.getElementById('resultPanel').classList.remove('show');
+      document.getElementById('errorMsg').classList.remove('show');
+      document.getElementById('wrBar').style.width='0%';
+    }
+
+    document.addEventListener('keydown', e=>{ if(e.key==='Enter') calculate(); });
+  </script>
+</body>
+</html>
