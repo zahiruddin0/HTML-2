@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Template Kata-Kata Instagram</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .nebula {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .nebula::before, 
+        .nebula::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.08;
+            animation: nebulaFloat 25s linear infinite;
+        }
+        
+        .nebula::before {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.3), transparent 70%);
+            top: 15%;
+            left: 15%;
+        }
+        
+        .nebula::after {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(33, 150, 243, 0.2), transparent 70%);
+            bottom: 15%;
+            right: 15%;
+            animation-delay: -12s;
+        }
+        
+        @keyframes nebulaFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(15px, 10px) scale(1.03); }
+            66% { transform: translate(-10px, 15px) scale(0.97); }
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(35, 35, 35, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .container:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 35px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(76, 175, 80, 0.25);
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, #4CAF50, transparent);
+        }
+        
+        .header h1 {
+            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .ig-logo {
+            font-size: 32px;
+            color: #e1306c;
+            filter: drop-shadow(0 2px 4px rgba(225, 48, 108, 0.3));
+            transition: transform 0.3s ease;
+        }
+        
+        .ig-logo:hover { transform: scale(1.1); }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-weight: 400;
+            padding: 0 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+        
+        .form-group label i {
+            color: #4CAF50;
+            font-size: 14px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.07);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: #888;
+            font-size: 15px;
+        }
+        
+        textarea {
+            min-height: 130px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .photo-upload-container { margin-top: 10px; }
+        
+        .profile-image-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            cursor: pointer;
+            color: #ccc;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 15px;
+        }
+        
+        .profile-image-label:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(76, 175, 80, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .profile-image-label i {
+            font-size: 18px;
+            color: #4CAF50;
+        }
+        
+        .upload-note {
+            display: block;
+            margin-top: 8px;
+            color: #888;
+            font-size: 13px;
+            font-style: italic;
+            text-align: center;
+        }
+        
+        .empty-profile-preview {
+            width: 80px;
+            height: 80px;
+            margin: 15px auto;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 2%, transparent 3%),
+                radial-gradient(circle at 70% 70%, rgba(255,255,255,0.8) 2%, transparent 3%),
+                conic-gradient(
+                    rgba(255,255,255,0.1) 0deg 90deg,
+                    rgba(200,200,200,0.05) 90deg 180deg,
+                    rgba(255,255,255,0.1) 180deg 270deg,
+                    rgba(200,200,200,0.05) 270deg 360deg
+                );
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .empty-profile-preview::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .empty-profile-preview::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 16px 20px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        button:hover::before { left: 100%; }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.25);
+        }
+        
+        .generate-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #1B5E20 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.35);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #f44336 0%, #c62828 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.25);
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.35);
+        }
+        
+        .tips-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tips-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            color: #4CAF50;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .tips-header i { font-size: 20px; }
+        
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .tips-list li {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            padding-left: 8px;
+            position: relative;
+        }
+        
+        .tips-list li::before {
+            content: '•';
+            color: #4CAF50;
+            position: absolute;
+            left: -10px;
+        }
+        
+
+        
+        .preview-container {
+            position: relative;
+            width: 360px;
+            height: 640px;
+            background: url('https://raw.githubusercontent.com/rahmat-369/Foto-up/refs/heads/main/Screenshot_2025-12-06-17-40-17-76.png') no-repeat center center;
+            background-size: cover;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+            margin: 20px auto;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .preview-container.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .preview-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 2;
+        }
+        
+        .preview-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+        }
+        
+        .preview-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .preview-name {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 200px;
+        }
+        
+        .preview-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 1;
+        }
+        
+        .preview-main-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: #000000;
+            text-align: center;
+            line-height: 1.4;
+            width: 80%;
+            word-wrap: break-word;
+            background: none;
+            border-radius: 0;
+            padding: 0;
+            margin-bottom: 20px;
+            overflow-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .preview-by-text {
+            font-size: 14px;
+            color: #000000;
+            font-style: italic;
+            text-align: center;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            width: 80%;
+            margin-top: 20px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .download-btn {
+            padding: 14px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            max-width: 360px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .download-btn.show {
+            display: block;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        .download-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        
+        .back-btn {
+            background: #555;
+            color: white;
+            margin-top: 10px;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s;
+            width: 100%;
+            max-width: 360px;
+            display: none;
+        }
+        
+        .back-btn:hover {
+            background: #666;
+            transform: translateY(-2px);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .loading-overlay.active { display: flex; }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #333;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-size: 18px;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 25px 20px; max-width: 100%; }
+            .header h1 { font-size: 22px; }
+            .button-group { flex-direction: column; }
+            button { padding: 14px; }
+            input, textarea { padding: 14px 16px; }
+            .subtitle { font-size: 14px; }
+            .preview-container { width: 100%; max-width: 360px; height: 640px; }
+            .preview-main-text { font-size: 18px; width: 85%; }
+            .preview-by-text { width: 85%; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nebula"></div>
+    
+    <!-- Skrin Pemuatan -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <div class="loading-text">Mencipta Gambar...</div>
+    </div>
+
+    <!-- Borang Utama -->
+    <div class="container" id="formContainer">
+        <div class="header">
+            <h1>Template Kata-Kata Instagram</h1>
+            <div class="ig-logo">
+                <i class="fab fa-instagram"></i>
+            </div>
+        </div>
+        
+        <p class="subtitle">Buat story atau kata-kata menarik untuk Instagram anda dengan mudah dan pantas 😎</p>
+        
+        <!-- Pratonton Gambar Profil Kosong -->
+        <div style="text-align: center; margin-bottom: 25px;">
+            <div class="empty-profile-preview">
+                <i class="fas fa-user"></i>
+            </div>
+            <small style="color: #888; font-size: 13px;">Jangan lupa ikuti saluran kami di bawah</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="profileName">
+                <i class="fas fa-user-circle"></i> Nama Profil:
+            </label>
+            <input type="text" id="profileName" placeholder="Masukkan nama profil anda" maxlength="30">
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <i class="fas fa-camera"></i> Gambar Profil (Pilihan):
+            </label>
+            <div class="photo-upload-container">
+                <label for="profileImage" class="profile-image-label">
+                    <i class="fas fa-cloud-upload-alt"></i> Muat Naik Gambar Profil
+                </label>
+                <input type="file" id="profileImage" class="profile-image-input" accept="image/*" style="display:none;">
+                <span class="upload-note">Biarkan kosong untuk menggunakan profil lalai yang telus</span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="mainText">
+                <i class="fas fa-quote-left"></i> Isi Kata-Kata:
+            </label>
+            <textarea id="mainText" placeholder="Tulis kata-kata inspirasi, motivasi, atau petikan kegemaran anda di sini..."></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="byText">
+                <i class="fas fa-pen-fancy"></i> Tanda Nama (By):
+            </label>
+            <input type="text" id="byText" placeholder="by nama anda" value="by zahir" maxlength="20">
+        </div>
+        
+        <div class="button-group">
+            <button class="generate-btn" id="generateBtn">
+                <i class="fas fa-magic"></i> Jana Gambar
+            </button>
+            <button class="reset-btn" id="resetBtn">
+                <i class="fas fa-redo"></i> Set Semula
+            </button>
+        </div>
+        
+        <!-- Bahagian Tips -->
+        <div class="tips-container">
+            <div class="tips-header">
+                <i class="fas fa-lightbulb"></i> Tips untuk Hasil Terbaik
+            </div>
+            <ul class="tips-list">
+                <li>Gunakan kata-kata yang ringkas tetapi bermakna</li>
+                <li>Gambar profil adalah pilihan — profil lalai telus akan digunakan jika tiada gambar dimuat naik</li>
+                <li>Format nama: @username atau nama biasa</li>
+                <li>Hasil gambar sesuai untuk Instagram Stories atau Feed</li>
+            </ul>
+        </div>
+        
+
+    </div>
+
+    <!-- Pratonton -->
+    <div class="preview-container" id="previewContainer">
+        <div class="preview-header">
+            <div class="preview-avatar" id="previewAvatar"></div>
+            <div class="preview-name" id="previewProfileName">Nama Profil</div>
+        </div>
+        <div class="preview-content">
+            <div class="preview-main-text" id="previewMainText">Isi kata-kata</div>
+            <div class="preview-by-text" id="previewByText">_by zahir_</div>
+        </div>
+    </div>
+
+    <!-- Butang Tindakan -->
+    <button class="download-btn" id="downloadBtn">
+        <i class="fas fa-download"></i> Muat Turun Gambar
+    </button>
+    
+    <button class="back-btn" id="backBtn">
+        <i class="fas fa-arrow-left"></i> Kembali ke Borang
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileNameInput = document.getElementById('profileName');
+            const mainTextInput = document.getElementById('mainText');
+            const byTextInput = document.getElementById('byText');
+            const profileImageInput = document.getElementById('profileImage');
+            const generateBtn = document.getElementById('generateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const backBtn = document.getElementById('backBtn');
+            const previewContainer = document.getElementById('previewContainer');
+            const previewProfileName = document.getElementById('previewProfileName');
+            const previewMainText = document.getElementById('previewMainText');
+            const previewByText = document.getElementById('previewByText');
+            const previewAvatar = document.getElementById('previewAvatar');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const formContainer = document.getElementById('formContainer');
+
+            let profileImageData = null;
+            const backgroundUrl = 'https://raw.githubusercontent.com/rahmat-369/Foto-up/refs/heads/main/Screenshot_2025-12-06-17-40-17-76.png';
+            const defaultAvatarUrl = 'https://e.top4top.io/p_36289l9m80.jpeg';
+
+            profileImageInput.addEventListener('change', function() {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profileImageData = e.target.result;
+                        updateAvatarPreview();
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    profileImageData = null;
+                    updateAvatarPreview();
+                }
+            });
+
+            function updateAvatarPreview() {
+                if (profileImageData) {
+                    previewAvatar.innerHTML = `<img src="${profileImageData}" alt="Profil">`;
+                    previewAvatar.style.backgroundImage = 'none';
+                } else {
+                    previewAvatar.innerHTML = '';
+                    previewAvatar.style.backgroundImage = `url('${defaultAvatarUrl}')`;
+                }
+            }
+
+            generateBtn.addEventListener('click', function() {
+                if (!profileNameInput.value.trim()) {
+                    alert('Sila masukkan nama profil!');
+                    profileNameInput.focus();
+                    return;
+                }
+                if (!mainTextInput.value.trim()) {
+                    alert('Sila masukkan isi kata-kata!');
+                    mainTextInput.focus();
+                    return;
+                }
+                updatePreview();
+                loadingOverlay.classList.add('active');
+                formContainer.style.display = 'none';
+                setTimeout(() => {
+                    loadingOverlay.classList.remove('active');
+                    previewContainer.classList.add('show');
+                    downloadBtn.classList.add('show');
+                    backBtn.style.display = 'block';
+                }, 2000);
+            });
+
+            resetBtn.addEventListener('click', function() {
+                profileNameInput.value = '';
+                mainTextInput.value = '';
+                byTextInput.value = 'by zahir';
+                profileImageInput.value = '';
+                profileImageData = null;
+                updateAvatarPreview();
+                previewProfileName.textContent = 'Nama Profil';
+                previewMainText.textContent = 'Isi kata-kata';
+                previewByText.textContent = 'by zahir';
+                previewContainer.classList.remove('show');
+                downloadBtn.classList.remove('show');
+                backBtn.style.display = 'none';
+                formContainer.style.display = 'block';
+            });
+
+            backBtn.addEventListener('click', function() {
+                previewContainer.classList.remove('show');
+                downloadBtn.classList.remove('show');
+                backBtn.style.display = 'none';
+                formContainer.style.display = 'block';
+            });
+
+            downloadBtn.addEventListener('click', downloadImage);
+
+            function updatePreview() {
+                previewProfileName.textContent = profileNameInput.value.trim() || 'Nama Profil';
+                const mainText = mainTextInput.value.trim() || 'Isi kata-kata';
+                previewMainText.textContent = mainText;
+                previewByText.textContent = byTextInput.value.trim() || 'by zahir';
+                updateAvatarPreview();
+                const textLength = mainText.length;
+                if (textLength > 100) {
+                    previewMainText.style.fontSize = '18px';
+                } else if (textLength > 50) {
+                    previewMainText.style.fontSize = '20px';
+                } else {
+                    previewMainText.style.fontSize = '24px';
+                }
+            }
+
+            function downloadImage() {
+                loadingOverlay.classList.add('active');
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const bgImg = new Image();
+                bgImg.crossOrigin = "anonymous";
+                bgImg.src = backgroundUrl;
+                bgImg.onload = function() {
+                    const bgWidth = bgImg.naturalWidth || bgImg.width;
+                    const bgHeight = bgImg.naturalHeight || bgImg.height;
+                    canvas.width = bgWidth;
+                    canvas.height = bgHeight;
+                    ctx.drawImage(bgImg, 0, 0, bgWidth, bgHeight);
+                    const scaleX = bgWidth / 360;
+                    const scaleY = bgHeight / 640;
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(0, 0, bgWidth, 50 * scaleY);
+                    if (profileImageData) {
+                        const avatarImg = new Image();
+                        avatarImg.src = profileImageData;
+                        avatarImg.onload = function() {
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.arc(25 * scaleX, 25 * scaleY, 15 * scaleX, 0, Math.PI * 2);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(avatarImg, 10 * scaleX, 10 * scaleY, 30 * scaleX, 30 * scaleY);
+                            ctx.restore();
+                            drawTexts();
+                        };
+                        avatarImg.onerror = function() {
+                            drawDefaultAvatar();
+                            drawTexts();
+                        };
+                    } else {
+                        drawDefaultAvatar();
+                    }
+
+                    function drawDefaultAvatar() {
+                        const defaultAvatarImg = new Image();
+                        defaultAvatarImg.crossOrigin = "anonymous";
+                        defaultAvatarImg.src = defaultAvatarUrl;
+                        defaultAvatarImg.onload = function() {
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.arc(25 * scaleX, 25 * scaleY, 15 * scaleX, 0, Math.PI * 2);
+                            ctx.closePath();
+                            ctx.clip();
+                            ctx.drawImage(defaultAvatarImg, 10 * scaleX, 10 * scaleY, 30 * scaleX, 30 * scaleY);
+                            ctx.restore();
+                            drawTexts();
+                        };
+                        defaultAvatarImg.onerror = function() {
+                            const gradient = ctx.createLinearGradient(10 * scaleX, 10 * scaleY, 40 * scaleX, 40 * scaleY);
+                            gradient.addColorStop(0, '#f09433');
+                            gradient.addColorStop(0.25, '#e6683c');
+                            gradient.addColorStop(0.5, '#dc2743');
+                            gradient.addColorStop(0.75, '#cc2366');
+                            gradient.addColorStop(1, '#bc1888');
+                            ctx.beginPath();
+                            ctx.arc(25 * scaleX, 25 * scaleY, 15 * scaleX, 0, Math.PI * 2);
+                            ctx.fillStyle = gradient;
+                            ctx.fill();
+                            ctx.beginPath();
+                            ctx.arc(25 * scaleX, 25 * scaleY, 9 * scaleX, 0, Math.PI * 2);
+                            ctx.fillStyle = '#fff';
+                            ctx.fill();
+                            drawTexts();
+                        };
+                    }
+
+                    function drawTexts() {
+                        ctx.fillStyle = '#fff';
+                        ctx.font = `600 ${14 * scaleY}px Arial`;
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(previewProfileName.textContent, 50 * scaleX, 25 * scaleY);
+                        ctx.fillStyle = '#333';
+                        ctx.font = `500 ${24 * scaleY}px Arial`;
+                        ctx.textAlign = 'center';
+                        const mainText = previewMainText.textContent;
+                        const maxWidth = bgWidth * 0.8;
+                        const lineHeight = 30 * scaleY;
+                        const words = mainText.split(' ');
+                        let line = '';
+                        let lines = [];
+                        for (let n = 0; n < words.length; n++) {
+                            const testLine = line + words[n] + ' ';
+                            const metrics = ctx.measureText(testLine);
+                            if (metrics.width > maxWidth && n > 0) {
+                                lines.push(line);
+                                line = words[n] + ' ';
+                            } else {
+                                line = testLine;
+                            }
+                        }
+                        lines.push(line);
+                        const totalTextHeight = lines.length * lineHeight;
+                        let y = (bgHeight / 2) - (totalTextHeight / 2);
+                        ctx.fillStyle = '#333';
+                        for (let i = 0; i < lines.length; i++) {
+                            ctx.fillText(lines[i], bgWidth / 2, y);
+                            y += lineHeight;
+                        }
+                        const lastTextY = y;
+                        const byTextY = lastTextY + (40 * scaleY);
+                        ctx.fillStyle = '#666';
+                        ctx.font = `italic ${14 * scaleY}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.fillText(previewByText.textContent, bgWidth / 2, byTextY);
+                        const link = document.createElement('a');
+                        link.download = 'kata-kata-instagram.png';
+                        link.href = canvas.toDataURL('image/png');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        setTimeout(() => {
+                            loadingOverlay.classList.remove('active');
+                        }, 500);
+                    }
+                };
+                bgImg.onerror = function() {
+                    alert('Gagal memuatkan gambar latar belakang. Sila cuba lagi.');
+                    loadingOverlay.classList.remove('active');
+                };
+            }
+
+            updateAvatarPreview();
+            byTextInput.value = 'by zahir';
+        });
+    </script>
+</body>
+</html>
