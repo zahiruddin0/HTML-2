@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id" data-theme-mode="theme1">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Password Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Dual Theme Password Generator - Responsive</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;900&family=Syne:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root[data-theme="dark"] {
+        /* ============================================= */
+        /* THEME 1: Minimalis Modern (Soft Dark/Light)  */
+        /* ============================================= */
+        :root[data-theme-mode="theme1"][data-theme="dark"] {
             --bg: #0d0d0f;
             --surface: #16161a;
             --surface2: #1e1e24;
@@ -23,9 +26,18 @@
             --yellow-bg: rgba(245, 158, 11, 0.1);
             --slider-track: #2a2a35;
             --checkbox-bg: #2a2a35;
+            --font-body: 'Syne', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --card-radius: 20px;
+            --card-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            --btn-transform: scale(0.97);
+            --padding-card: 32px;
+            --padding-card-mobile: 20px;
+            --font-title: 1.3rem;
+            --font-title-mobile: 1.1rem;
         }
 
-        :root[data-theme="light"] {
+        :root[data-theme-mode="theme1"][data-theme="light"] {
             --bg: #f5f5f7;
             --surface: #ffffff;
             --surface2: #f0f0f5;
@@ -42,56 +54,178 @@
             --yellow-bg: rgba(217, 119, 6, 0.08);
             --slider-track: #e0e0ea;
             --checkbox-bg: #e8e8f0;
+            --font-body: 'Syne', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --card-radius: 20px;
+            --card-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            --btn-transform: scale(0.97);
+            --padding-card: 32px;
+            --padding-card-mobile: 20px;
+            --font-title: 1.3rem;
+            --font-title-mobile: 1.1rem;
         }
 
+        /* ============================================= */
+        /* THEME 2: Cyberpunk Neo-Brutal (Ekstrem)      */
+        /* ============================================= */
+        :root[data-theme-mode="theme2"][data-theme="dark"] {
+            --bg-body: #0a0c0f;
+            --card-bg: #12141c;
+            --card-border: #00f0ff;
+            --card-shadow: 12px 12px 0 #ff00c1, 8px 8px 0 4px #00ff9f;
+            --text-primary: #f0f0ff;
+            --text-glitch: #ffffb3;
+            --accent-pink: #ff00c1;
+            --accent-cyan: #00f0ff;
+            --accent-green: #00ff9f;
+            --accent-yellow: #ffff00;
+            --output-bg: #0c0e16;
+            --output-border: #00ff9f;
+            --option-bg: #16182a;
+            --option-border: #00ff9f;
+            --slider-bg: #202230;
+            --slider-border: #00ff9f;
+            --strength-bar-bg: #2a2a3a;
+            --badge-bg: #0a0c0f;
+            --glitch-bg: #ff00c1;
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --card-radius: 0px;
+            --card-shadow: 12px 12px 0 #ff00c1;
+            --btn-transform: translate(4px, 4px);
+            --padding-card: 2rem 1.8rem;
+            --padding-card-mobile: 1.5rem 1rem;
+            --font-title: 2rem;
+            --font-title-mobile: 1.5rem;
+        }
+
+        :root[data-theme-mode="theme2"][data-theme="light"] {
+            --bg-body: #e0e2f0;
+            --card-bg: #f5f7ff;
+            --card-border: #ff00c1;
+            --card-shadow: 12px 12px 0 #00f0ff, 8px 8px 0 4px #ff00c1;
+            --text-primary: #0a0c1f;
+            --text-glitch: #0a0c1f;
+            --accent-pink: #d100b5;
+            --accent-cyan: #0099ff;
+            --accent-green: #00b36b;
+            --accent-yellow: #e6b800;
+            --output-bg: #ffffff;
+            --output-border: #ff00c1;
+            --option-bg: #d8daff;
+            --option-border: #ff00c1;
+            --slider-bg: #c0c4e0;
+            --slider-border: #ff00c1;
+            --strength-bar-bg: #b0b4d0;
+            --badge-bg: #ffffff;
+            --glitch-bg: #00f0ff;
+            --font-body: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --card-radius: 0px;
+            --card-shadow: 12px 12px 0 #00f0ff;
+            --btn-transform: translate(4px, 4px);
+            --padding-card: 2rem 1.8rem;
+            --padding-card-mobile: 1.5rem 1rem;
+            --font-title: 2rem;
+            --font-title-mobile: 1.5rem;
+        }
+
+        /* Global styles */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Syne', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: var(--font-body);
+            background: var(--bg-body, var(--bg));
             min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            transition: all 0.3s ease;
         }
 
+        /* Theme 2 background pattern */
+        :root[data-theme-mode="theme2"] body {
+            background-image: 
+                linear-gradient(45deg, var(--accent-cyan) 1px, transparent 1px),
+                linear-gradient(-45deg, var(--accent-pink) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Card styling */
         .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 32px;
+            background: var(--surface, var(--card-bg));
+            border: 1px solid var(--border, var(--card-border));
+            border-radius: var(--card-radius);
+            padding: var(--padding-card);
             width: 100%;
-            max-width: 420px;
+            max-width: 520px;
             margin: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.4s ease;
+            box-shadow: var(--card-shadow, 0 20px 60px rgba(0,0,0,0.3));
+            transition: all 0.3s ease;
+            position: relative;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Theme 2 pseudo-element */
+        :root[data-theme-mode="theme2"] .card::before {
+            content: "⚡ SYSTEM ⚡";
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            background: var(--bg-body, var(--bg));
+            color: var(--text-glitch);
+            font-family: var(--font-mono);
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 0.2rem 1rem;
+            border: 3px solid var(--accent-pink);
+            box-shadow: 4px 4px 0 var(--accent-cyan);
+            letter-spacing: 2px;
         }
 
+        /* Theme 2 responsive pseudo-element */
+        @media (max-width: 480px) {
+            :root[data-theme-mode="theme2"] .card::before {
+                font-size: 0.8rem;
+                top: -16px;
+                left: 10px;
+                padding: 0.1rem 0.6rem;
+            }
+        }
+
+        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        :root[data-theme-mode="theme2"] .header {
+            border-bottom: 4px solid var(--accent-pink);
+            padding-bottom: 0.8rem;
         }
 
         .title {
-            font-size: 1.3rem;
+            font-size: var(--font-title);
             font-weight: 700;
             letter-spacing: -0.5px;
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        :root[data-theme-mode="theme2"] .title {
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            text-shadow: 4px 4px 0 var(--accent-pink);
         }
 
         .title-icon {
@@ -105,19 +239,60 @@
             font-size: 16px;
         }
 
-        /* Theme toggle */
-        .theme-toggle {
-            background: var(--surface2);
-            border: 1px solid var(--border);
+        :root[data-theme-mode="theme2"] .title-icon {
+            display: none;
+        }
+
+        /* Control group */
+        .control-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Theme selector */
+        .theme-selector {
+            display: flex;
+            gap: 6px;
+        }
+
+        .theme-mode-btn {
+            background: var(--surface2, var(--option-bg));
+            border: 2px solid var(--accent, var(--accent-cyan));
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text, var(--accent-cyan));
+            transition: all 0.2s;
+        }
+
+        :root[data-theme-mode="theme2"] .theme-mode-btn {
+            border-radius: 0px;
+        }
+
+        .theme-mode-btn.active {
+            background: var(--accent, var(--accent-pink));
+            color: white;
+        }
+
+        /* Sub theme toggle */
+        .sub-theme-toggle {
+            background: var(--surface2, var(--option-bg));
+            border: 1px solid var(--border, var(--card-border));
             border-radius: 50px;
             padding: 4px;
             display: flex;
-            cursor: pointer;
-            transition: all 0.2s;
             gap: 2px;
         }
 
-        .theme-btn {
+        :root[data-theme-mode="theme2"] .sub-theme-toggle {
+            border-radius: 0px;
+        }
+
+        .sub-theme-btn {
             width: 32px;
             height: 28px;
             border-radius: 50px;
@@ -125,42 +300,63 @@
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            transition: all 0.2s;
             border: none;
             background: transparent;
             cursor: pointer;
-            color: var(--text-muted);
+            color: var(--text-muted, var(--text-glitch));
         }
 
-        .theme-btn.active {
-            background: var(--accent);
+        :root[data-theme-mode="theme2"] .sub-theme-btn {
+            border-radius: 0px;
+        }
+
+        .sub-theme-btn.active {
+            background: var(--accent, var(--accent-pink));
             color: white;
-            box-shadow: 0 2px 8px var(--accent-glow);
         }
 
-        /* Password output */
+        /* Output section */
         .output-section {
-            background: var(--surface2);
-            border: 1px solid var(--border);
+            background: var(--surface2, var(--output-bg));
+            border: 1px solid var(--border, var(--output-border));
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 24px;
             position: relative;
         }
 
+        :root[data-theme-mode="theme2"] .output-section {
+            border-radius: 0px;
+            box-shadow: inset 0 0 10px color-mix(in srgb, var(--accent-pink) 50%, transparent), 8px 8px 0 var(--accent-cyan);
+        }
+
         .output-label {
             font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            color: var(--text-muted);
+            color: var(--text-muted, var(--text-glitch));
             margin-bottom: 8px;
             font-weight: 600;
+        }
+
+        :root[data-theme-mode="theme2"] .output-label {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.8rem;
+            background: var(--glitch-bg);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            position: absolute;
+            top: -16px;
+            left: 20px;
+            border: 2px solid var(--accent-cyan);
         }
 
         .output-row {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
         #password-output {
@@ -168,23 +364,30 @@
             background: transparent;
             border: none;
             outline: none;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 1rem;
-            color: var(--text);
+            color: var(--text, var(--text-primary));
             cursor: pointer;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            width: 0;
+            min-width: 0;
+        }
+
+        :root[data-theme-mode="theme2"] #password-output {
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px var(--accent-cyan);
         }
 
         #copy-button {
-            background: var(--accent);
+            background: var(--accent, var(--accent-yellow));
             color: white;
             border: none;
             border-radius: 8px;
             padding: 7px 14px;
-            font-family: 'Syne', sans-serif;
+            font-family: var(--font-body);
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
@@ -193,43 +396,61 @@
             flex-shrink: 0;
         }
 
-        #copy-button:hover {
-            opacity: 0.85;
-            transform: scale(0.97);
+        :root[data-theme-mode="theme2"] #copy-button {
+            border: 4px solid var(--bg-body, var(--bg));
+            box-shadow: 5px 5px 0 var(--accent-pink);
+            border-radius: 0px;
         }
 
         #copy-button:active {
-            transform: scale(0.93);
+            transform: var(--btn-transform);
         }
 
-        /* Strength bar */
+        /* Strength */
         .strength-row {
             display: flex;
             align-items: center;
             gap: 8px;
             margin-top: 12px;
+            flex-wrap: wrap;
         }
 
         .strength-bars {
             display: flex;
             gap: 4px;
             flex: 1;
+            min-width: 120px;
+        }
+
+        :root[data-theme-mode="theme2"] .strength-bars {
+            gap: 6px;
         }
 
         .strength-bar {
             height: 4px;
             flex: 1;
             border-radius: 99px;
-            background: var(--border);
+            background: var(--border, var(--strength-bar-bg));
             transition: background 0.3s;
+        }
+
+        :root[data-theme-mode="theme2"] .strength-bar {
+            height: 14px;
+            border-radius: 0px;
+            border: 2px solid var(--accent-cyan);
         }
 
         .strength-label {
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-muted);
-            min-width: 50px;
+            color: var(--text-muted, var(--text-glitch));
+            min-width: 70px;
             text-align: right;
+        }
+
+        :root[data-theme-mode="theme2"] .strength-label {
+            font-family: var(--font-mono);
+            text-transform: uppercase;
         }
 
         /* Slider */
@@ -238,8 +459,14 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--text-muted);
+            color: var(--text-muted, var(--accent-green));
             margin-bottom: 10px;
+        }
+
+        :root[data-theme-mode="theme2"] .section-label {
+            font-family: var(--font-mono);
+            border-left: 8px solid var(--accent-pink);
+            padding-left: 12px;
         }
 
         .slider-row {
@@ -247,6 +474,14 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 22px;
+            flex-wrap: wrap;
+        }
+
+        :root[data-theme-mode="theme2"] .slider-row {
+            background: var(--output-bg, var(--surface2));
+            border: 4px solid var(--accent-cyan);
+            padding: 8px 16px;
+            box-shadow: 5px 5px 0 var(--accent-pink);
         }
 
         input[type="range"] {
@@ -254,9 +489,16 @@
             -webkit-appearance: none;
             height: 4px;
             border-radius: 99px;
-            background: var(--slider-track);
+            background: var(--slider-track, var(--slider-bg));
             outline: none;
             cursor: pointer;
+            min-width: 120px;
+        }
+
+        :root[data-theme-mode="theme2"] input[type="range"] {
+            height: 12px;
+            border-radius: 0px;
+            border: 2px solid var(--slider-border);
         }
 
         input[type="range"]::-webkit-slider-thumb {
@@ -264,39 +506,53 @@
             width: 18px;
             height: 18px;
             border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: var(--accent, var(--accent-yellow));
             cursor: pointer;
-            transition: box-shadow 0.2s;
         }
 
-        input[type="range"]::-webkit-slider-thumb:hover {
-            box-shadow: 0 0 0 6px var(--accent-glow);
+        :root[data-theme-mode="theme2"] input[type="range"]::-webkit-slider-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 0px;
+            border: 3px solid var(--bg-body, var(--bg));
+            box-shadow: 3px 3px 0 var(--accent-pink);
         }
 
         .length-badge {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--accent);
-            background: var(--accent-glow);
+            color: var(--accent, var(--accent-yellow));
+            background: var(--accent-glow, var(--badge-bg));
             padding: 3px 10px;
             border-radius: 6px;
             min-width: 40px;
             text-align: center;
         }
 
-        /* Checkboxes */
+        :root[data-theme-mode="theme2"] .length-badge {
+            font-size: 1.6rem;
+            font-weight: 900;
+            border: 3px solid var(--accent-cyan);
+            box-shadow: 3px 3px 0 var(--accent-pink);
+            border-radius: 0px;
+        }
+
+        /* Options */
         .options-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin-bottom: 22px;
         }
 
+        :root[data-theme-mode="theme2"] .options-grid {
+            gap: 12px;
+        }
+
         .option-item {
-            background: var(--surface2);
-            border: 1.5px solid var(--border);
+            background: var(--surface2, var(--option-bg));
+            border: 1.5px solid var(--border, var(--option-border));
             border-radius: 10px;
             padding: 10px 12px;
             display: flex;
@@ -304,19 +560,20 @@
             gap: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            user-select: none;
         }
 
-        .option-item:hover {
-            border-color: var(--accent);
+        :root[data-theme-mode="theme2"] .option-item {
+            border-radius: 0px;
+            border-width: 4px;
+            box-shadow: 5px 5px 0 var(--accent-pink);
         }
 
         .option-item.active {
-            border-color: var(--accent);
-            background: var(--accent-glow);
+            border-color: var(--accent, var(--accent-yellow));
+            background: var(--accent-glow, var(--accent-pink));
         }
 
-        .option-item input[type="checkbox"] {
+        .option-item input {
             display: none;
         }
 
@@ -324,19 +581,26 @@
             width: 16px;
             height: 16px;
             border-radius: 4px;
-            background: var(--checkbox-bg);
-            border: 1.5px solid var(--border);
+            background: var(--checkbox-bg, var(--bg-body));
+            border: 1.5px solid var(--border, var(--accent-cyan));
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
-            transition: all 0.2s;
             font-size: 10px;
+            flex-shrink: 0;
+        }
+
+        :root[data-theme-mode="theme2"] .custom-check {
+            width: 26px;
+            height: 26px;
+            border-radius: 0px;
+            border-width: 3px;
+            font-size: 1.2rem;
         }
 
         .option-item.active .custom-check {
-            background: var(--accent);
-            border-color: var(--accent);
+            background: var(--accent, var(--accent-yellow));
+            border-color: var(--accent, var(--bg-body));
             color: white;
         }
 
@@ -346,31 +610,36 @@
             line-height: 1.2;
         }
 
+        :root[data-theme-mode="theme2"] .option-text {
+            text-transform: uppercase;
+        }
+
         /* Generate button */
         #generate-button {
             width: 100%;
             padding: 14px;
-            background: var(--accent);
+            background: var(--accent, var(--accent-green));
             color: white;
             border: none;
             border-radius: 12px;
-            font-family: 'Syne', sans-serif;
+            font-family: var(--font-body);
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             letter-spacing: 0.3px;
-            box-shadow: 0 4px 20px var(--accent-glow);
         }
 
-        #generate-button:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px var(--accent-glow);
+        :root[data-theme-mode="theme2"] #generate-button {
+            border-radius: 0px;
+            border: 6px solid var(--bg-body, var(--bg));
+            font-size: 1.8rem;
+            letter-spacing: 5px;
+            box-shadow: 12px 12px 0 var(--accent-pink), 4px 4px 0 4px var(--accent-cyan);
         }
 
         #generate-button:active {
-            transform: translateY(0);
+            transform: var(--btn-transform);
         }
 
         /* Alert */
@@ -382,12 +651,251 @@
             font-weight: 600;
             text-align: center;
             display: none;
-            animation: fadeIn 0.2s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-4px); }
-            to { opacity: 1; transform: translateY(0); }
+        :root[data-theme-mode="theme2"] #alert-message {
+            border-radius: 0px;
+            border: 4px solid var(--accent-cyan);
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+        }
+
+        /* ============================================= */
+        /* MEDIA QUERIES - RESPONSIVE DESIGN             */
+        /* ============================================= */
+
+        /* Tablet (max-width: 768px) */
+        @media (max-width: 768px) {
+            .card {
+                max-width: 90%;
+                margin: 16px;
+                padding: var(--padding-card-mobile);
+            }
+
+            .title {
+                font-size: calc(var(--font-title) * 0.85);
+            }
+
+            .options-grid {
+                gap: 6px;
+            }
+
+            .option-text {
+                font-size: 0.7rem;
+            }
+
+            :root[data-theme-mode="theme2"] .option-text {
+                font-size: 0.75rem;
+            }
+
+            .custom-check {
+                width: 14px;
+                height: 14px;
+            }
+
+            :root[data-theme-mode="theme2"] .custom-check {
+                width: 22px;
+                height: 22px;
+            }
+
+            #generate-button {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+
+            :root[data-theme-mode="theme2"] #generate-button {
+                font-size: 1.4rem;
+                letter-spacing: 3px;
+                padding: 0.8rem;
+            }
+
+            .length-badge {
+                font-size: 0.75rem;
+                padding: 2px 8px;
+            }
+
+            :root[data-theme-mode="theme2"] .length-badge {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Mobile (max-width: 550px) */
+        @media (max-width: 550px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .card {
+                max-width: 100%;
+                margin: 10px;
+                padding: 18px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 16px;
+                margin-bottom: 20px;
+            }
+
+            .control-group {
+                justify-content: center;
+            }
+
+            .title {
+                justify-content: center;
+                font-size: calc(var(--font-title) * 0.75);
+            }
+
+            .output-section {
+                padding: 12px;
+                margin-bottom: 18px;
+            }
+
+            .output-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #password-output {
+                text-align: center;
+                padding: 8px 0;
+                white-space: normal;
+                word-break: break-all;
+            }
+
+            #copy-button {
+                width: 100%;
+                padding: 10px;
+            }
+
+            .strength-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .strength-label {
+                text-align: center;
+            }
+
+            .slider-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .length-badge {
+                text-align: center;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .option-item {
+                padding: 8px 12px;
+            }
+
+            .section-label {
+                font-size: 0.7rem;
+            }
+
+            #generate-button {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            :root[data-theme-mode="theme2"] #generate-button {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+                padding: 0.7rem;
+                border-width: 4px;
+            }
+
+            :root[data-theme-mode="theme2"] .output-label {
+                font-size: 0.65rem;
+                top: -12px;
+                left: 10px;
+                padding: 0.1rem 0.6rem;
+            }
+
+            :root[data-theme-mode="theme2"] #password-output {
+                font-size: 1rem;
+            }
+
+            :root[data-theme-mode="theme2"] .strength-bar {
+                height: 10px;
+            }
+
+            :root[data-theme-mode="theme2"] .slider-row {
+                padding: 6px 12px;
+            }
+
+            :root[data-theme-mode="theme2"] .option-item {
+                padding: 6px 10px;
+            }
+        }
+
+        /* Small mobile (max-width: 380px) */
+        @media (max-width: 380px) {
+            .card {
+                padding: 14px;
+            }
+
+            .theme-mode-btn {
+                padding: 4px 8px;
+                font-size: 0.6rem;
+            }
+
+            .sub-theme-btn {
+                width: 28px;
+                height: 24px;
+                font-size: 12px;
+            }
+
+            .title {
+                font-size: calc(var(--font-title) * 0.65);
+            }
+
+            .option-text {
+                font-size: 0.65rem;
+            }
+
+            :root[data-theme-mode="theme2"] .option-text {
+                font-size: 0.7rem;
+            }
+
+            :root[data-theme-mode="theme2"] .title {
+                font-size: 1.3rem;
+            }
+
+            :root[data-theme-mode="theme2"] #generate-button {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* Landscape mode on mobile */
+        @media (max-width: 850px) and (orientation: landscape) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .card {
+                max-width: 95%;
+                margin: 10px auto;
+            }
+
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
@@ -396,16 +904,22 @@
     <div class="header">
         <div class="title">
             <div class="title-icon">🔐</div>
-            Generator Sandi
+            <span id="title-text">Generator Sandi</span>
         </div>
-        <div class="theme-toggle">
-            <button class="theme-btn active" id="btn-dark" onclick="setTheme('dark')" title="Dark">🌙</button>
-            <button class="theme-btn" id="btn-light" onclick="setTheme('light')" title="Light">☀️</button>
+        <div class="control-group">
+            <div class="theme-selector">
+                <button class="theme-mode-btn active" id="mode-theme1" onclick="setThemeMode('theme1')">TEMA 1</button>
+                <button class="theme-mode-btn" id="mode-theme2" onclick="setThemeMode('theme2')">TEMA 2</button>
+            </div>
+            <div class="sub-theme-toggle">
+                <button class="sub-theme-btn active" id="sub-dark" onclick="setSubTheme('dark')">🌙</button>
+                <button class="sub-theme-btn" id="sub-light" onclick="setSubTheme('light')">☀️</button>
+            </div>
         </div>
     </div>
 
     <div class="output-section">
-        <div class="output-label">Kata Sandi</div>
+        <div class="output-label" id="output-label">Kata Sandi</div>
         <div class="output-row">
             <input type="text" id="password-output" value="Klik Generate" readonly onclick="copyPassword()">
             <button id="copy-button" onclick="copyPassword()">Salin</button>
@@ -456,6 +970,7 @@
 </div>
 
 <script>
+    // Character sets
     const upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
     const numberChars = "0123456789";
@@ -466,30 +981,61 @@
     const passwordOutput = document.getElementById('password-output');
     const alertMessage = document.getElementById('alert-message');
 
-    lengthSlider.addEventListener('input', () => {
-        lengthValueSpan.textContent = lengthSlider.value;
-        if (passwordOutput.value !== "Klik Generate") generatePassword();
-    });
+    // State
+    let currentThemeMode = 'theme1';
+    let currentSubTheme = 'dark';
 
-    function setTheme(theme) {
+    // Set Theme Mode
+    window.setThemeMode = function(mode) {
+        currentThemeMode = mode;
+        document.documentElement.setAttribute('data-theme-mode', mode);
+        document.documentElement.setAttribute('data-theme', currentSubTheme);
+        
+        document.getElementById('mode-theme1').classList.toggle('active', mode === 'theme1');
+        document.getElementById('mode-theme2').classList.toggle('active', mode === 'theme2');
+        
+        const titleSpan = document.getElementById('title-text');
+        const outputLabelSpan = document.getElementById('output-label');
+        if (mode === 'theme2') {
+            titleSpan.innerHTML = 'PWD:<span>GEN</span>';
+            outputLabelSpan.innerHTML = '>>PASSWORD//';
+        } else {
+            titleSpan.innerHTML = 'Generator Sandi';
+            outputLabelSpan.innerHTML = 'Kata Sandi';
+        }
+        
+        if (passwordOutput.value && passwordOutput.value !== "Klik Generate") {
+            updateStrengthDisplay();
+        }
+    };
+
+    // Set Sub Theme
+    window.setSubTheme = function(theme) {
+        currentSubTheme = theme;
         document.documentElement.setAttribute('data-theme', theme);
-        document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
-        document.getElementById('btn-light').classList.toggle('active', theme === 'light');
-    }
+        
+        document.getElementById('sub-dark').classList.toggle('active', theme === 'dark');
+        document.getElementById('sub-light').classList.toggle('active', theme === 'light');
+        
+        if (passwordOutput.value && passwordOutput.value !== "Klik Generate") {
+            updateStrengthDisplay();
+        }
+    };
 
-    function toggleOption(label, checkboxId) {
+    // Toggle option
+    window.toggleOption = function(label, checkboxId) {
         const checkbox = document.getElementById(checkboxId);
         checkbox.checked = !checkbox.checked;
-        const check = label.querySelector('.custom-check');
+        const checkDiv = label.querySelector('.custom-check');
         if (checkbox.checked) {
             label.classList.add('active');
-            check.textContent = '✓';
+            checkDiv.textContent = '✓';
         } else {
             label.classList.remove('active');
-            check.textContent = '';
+            checkDiv.textContent = '';
         }
         if (passwordOutput.value !== "Klik Generate") generatePassword();
-    }
+    };
 
     function getRandomChar(str) {
         return str[Math.floor(Math.random() * str.length)];
@@ -504,26 +1050,63 @@
         return arr.join('');
     }
 
-    function updateStrength(password, charTypes) {
+    function updateStrengthDisplay() {
+        const password = passwordOutput.value;
+        if (!password || password === "Klik Generate") return;
+        
+        const includeUppercase = document.getElementById('include-uppercase').checked;
+        const includeLowercase = document.getElementById('include-lowercase').checked;
+        const includeNumbers = document.getElementById('include-numbers').checked;
+        const includeSymbols = document.getElementById('include-symbols').checked;
+        let charTypes = 0;
+        if (includeUppercase) charTypes++;
+        if (includeLowercase) charTypes++;
+        if (includeNumbers) charTypes++;
+        if (includeSymbols) charTypes++;
+        
         const len = password.length;
         let score = 0;
         if (len >= 12) score++;
         if (len >= 20) score++;
         if (charTypes >= 3) score++;
         if (charTypes === 4) score++;
-
-        const colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
-        const labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
-
+        
+        const rootStyle = getComputedStyle(document.documentElement);
+        let colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
+        let labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
+        
+        if (currentThemeMode === 'theme2') {
+            colors = [
+                rootStyle.getPropertyValue('--accent-pink').trim() || '#ff00c1',
+                rootStyle.getPropertyValue('--accent-yellow').trim() || '#ffff00',
+                rootStyle.getPropertyValue('--accent-cyan').trim() || '#00f0ff',
+                rootStyle.getPropertyValue('--accent-green').trim() || '#00ff9f'
+            ];
+            labels = ['LEMAH', 'CUKUP', 'KUAT', 'SANGAT KUAT'];
+        }
+        
         for (let i = 1; i <= 4; i++) {
             const bar = document.getElementById('bar' + i);
-            bar.style.background = i <= score ? colors[score - 1] : 'var(--border)';
+            if (i <= score) {
+                bar.style.background = colors[score-1];
+            } else {
+                bar.style.background = currentThemeMode === 'theme2' ? 
+                    rootStyle.getPropertyValue('--strength-bar-bg').trim() : 
+                    'var(--border)';
+            }
         }
-        document.getElementById('strength-label').textContent = score > 0 ? labels[score - 1] : '—';
-        document.getElementById('strength-label').style.color = score > 0 ? colors[score - 1] : 'var(--text-muted)';
+        
+        const labelSpan = document.getElementById('strength-label');
+        if (score > 0) {
+            labelSpan.textContent = labels[score-1];
+            labelSpan.style.color = colors[score-1];
+        } else {
+            labelSpan.textContent = '—';
+            labelSpan.style.color = 'var(--text-muted)';
+        }
     }
 
-    function generatePassword() {
+    window.generatePassword = function() {
         const length = parseInt(lengthSlider.value);
         const includeUppercase = document.getElementById('include-uppercase').checked;
         const includeLowercase = document.getElementById('include-lowercase').checked;
@@ -550,37 +1133,87 @@
         pwd = shuffleString(pwd);
 
         passwordOutput.value = pwd;
-        updateStrength(pwd, charTypes);
-    }
+        
+        let score = 0;
+        if (length >= 12) score++;
+        if (length >= 20) score++;
+        if (charTypes >= 3) score++;
+        if (charTypes === 4) score++;
+        
+        const rootStyle = getComputedStyle(document.documentElement);
+        let colors = ['#ef4444', '#f59e0b', '#3b82f6', '#22c55e'];
+        let labels = ['Lemah', 'Sedang', 'Kuat', 'Sangat Kuat'];
+        
+        if (currentThemeMode === 'theme2') {
+            colors = [
+                rootStyle.getPropertyValue('--accent-pink').trim() || '#ff00c1',
+                rootStyle.getPropertyValue('--accent-yellow').trim() || '#ffff00',
+                rootStyle.getPropertyValue('--accent-cyan').trim() || '#00f0ff',
+                rootStyle.getPropertyValue('--accent-green').trim() || '#00ff9f'
+            ];
+            labels = ['LEMAH', 'CUKUP', 'KUAT', 'SANGAT KUAT'];
+        }
+        
+        for (let i = 1; i <= 4; i++) {
+            const bar = document.getElementById('bar' + i);
+            if (i <= score) {
+                bar.style.background = colors[score-1];
+            } else {
+                bar.style.background = currentThemeMode === 'theme2' ? 
+                    rootStyle.getPropertyValue('--strength-bar-bg').trim() : 
+                    'var(--border)';
+            }
+        }
+        
+        const labelSpan = document.getElementById('strength-label');
+        if (score > 0) {
+            labelSpan.textContent = labels[score-1];
+            labelSpan.style.color = colors[score-1];
+        } else {
+            labelSpan.textContent = '—';
+            labelSpan.style.color = 'var(--text-muted)';
+        }
+    };
 
-    function copyPassword() {
+    window.copyPassword = function() {
         if (!passwordOutput.value || passwordOutput.value === "Klik Generate") {
-            showAlert("Belum ada kata sandi!", "warning"); return;
+            showAlert("Belum ada kata sandi!", "warning");
+            return;
         }
         navigator.clipboard.writeText(passwordOutput.value)
             .then(() => showAlert("Tersalin! ✅", "success"))
             .catch(() => showAlert("Gagal menyalin.", "error"));
-    }
+    };
 
     function showAlert(message, type) {
         if (type === "none") { alertMessage.style.display = "none"; return; }
         alertMessage.style.display = "block";
-        alertMessage.textContent = message;
+        alertMessage.textContent = currentThemeMode === 'theme2' ? "⚡ " + message + " ⚡" : message;
 
-        const styles = {
-            success: { bg: 'var(--green-bg)', color: 'var(--green)', border: 'var(--green)' },
-            warning: { bg: 'var(--yellow-bg)', color: 'var(--yellow)', border: 'var(--yellow)' },
-            error: { bg: 'var(--red-bg)', color: 'var(--red)', border: 'var(--red)' },
-        };
-        const s = styles[type];
-        alertMessage.style.background = s.bg;
-        alertMessage.style.color = s.color;
-        alertMessage.style.border = `1px solid ${s.border}`;
+        const rootStyle = getComputedStyle(document.documentElement);
+        if (type === 'success') {
+            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-green').trim() : 'var(--green-bg)';
+            alertMessage.style.color = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--bg-body').trim() : 'var(--green)';
+        } else if (type === 'warning') {
+            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-yellow').trim() : 'var(--yellow-bg)';
+            alertMessage.style.color = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--bg-body').trim() : 'var(--yellow)';
+        } else {
+            alertMessage.style.background = currentThemeMode === 'theme2' ? rootStyle.getPropertyValue('--accent-pink').trim() : 'var(--red-bg)';
+            alertMessage.style.color = currentThemeMode === 'theme2' ? '#ffffff' : 'var(--red)';
+        }
 
-        setTimeout(() => alertMessage.style.display = "none", 2500);
+        setTimeout(() => alertMessage.style.display = "none", 2000);
     }
 
-    // Auto-generate on load
+    // Event listeners
+    lengthSlider.addEventListener('input', () => {
+        lengthValueSpan.textContent = lengthSlider.value;
+        if (passwordOutput.value !== "Klik Generate") generatePassword();
+    });
+
+    // Initialize
+    setThemeMode('theme1');
+    setSubTheme('dark');
     generatePassword();
 </script>
 </body>
