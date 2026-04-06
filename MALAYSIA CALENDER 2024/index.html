@@ -1,1 +1,715 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Kalendar Malaysia 2024 lengkap dengan cuti umum, jadual gaji, cuti sekolah & long weekend. Mod gelap/terang & zum gambar." />
+  <title>Kalendar Malaysia 2024 • Lengkap + Dark/Light</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
+    :root {
+      --bg: #0f0f11;
+      --card: #16161a;
+      --text: #e0e0e5;
+      --text-light: #a0a0b0;
+      --accent: #7c6eff;
+      --accent-dark: #5e50d0;
+      --border: #2a2a35;
+      --nav-bg: #141418e8;
+      --shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+      --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f4f9;
+      --card: #ffffff;
+      --text: #1c1c1f;
+      --text-light: #6e6e73;
+      --accent: #5e5ce6;
+      --accent-dark: #4a47c0;
+      --border: #d9d9e3;
+      --nav-bg: #fffffff2;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      min-height: 100vh;
+      transition: background 0.35s ease, color 0.3s ease;
+    }
+
+    header {
+      text-align: center;
+      padding: 36px 20px 28px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      background: linear-gradient(130deg, var(--accent) 0%, #b084ff 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    .subtitle {
+      color: var(--text-light);
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      width: 50px;
+      height: 50px;
+      border-radius: 60px;
+      font-size: 1.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      transition: 0.2s;
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .nav-container {
+      background: var(--nav-bg);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      padding: 12px 0;
+      transition: background 0.2s;
+    }
+
+    .month-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 14px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .month-btn {
+      background: var(--card);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .month-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 12px rgba(108, 92, 231, 0.3);
+    }
+
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 48px 24px 90px;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 28px;
+      padding-left: 8px;
+      border-left: 5px solid var(--accent);
+      color: var(--text);
+    }
+
+    .year-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 36px 30px;
+      margin-bottom: 60px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .month-card, .info-card {
+      background: var(--card);
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    .month-card:hover, .info-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .month-title, .info-title {
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 1.35rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, rgba(108, 92, 231, 0.08), rgba(108, 92, 231, 0.02));
+      border-bottom: 1px solid var(--border);
+      color: var(--accent);
+      letter-spacing: -0.2px;
+    }
+
+    .info-title {
+      font-size: 1.25rem;
+    }
+
+    .month-image, .info-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #f9f9fc;
+    }
+
+    /* Modal Lightbox */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal-img-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    #modalImage {
+      max-width: 92vw;
+      max-height: 88vh;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease-out;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    #modalImage:active {
+      cursor: grabbing;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 28px;
+      right: 32px;
+      font-size: 3rem;
+      font-weight: 300;
+      color: white;
+      background: rgba(20, 20, 28, 0.7);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+      z-index: 10010;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      font-family: monospace;
+    }
+
+    .close-btn:hover {
+      background: #ff3b30;
+      transform: rotate(90deg);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+      z-index: 10010;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    @media (max-width: 680px) {
+      .month-nav { gap: 8px; }
+      .month-btn { padding: 6px 14px; font-size: 0.8rem; }
+      .year-grid, .info-grid { gap: 24px; }
+      h1 { font-size: 2rem; }
+      .theme-toggle { width: 44px; height: 44px; top: 20px; right: 20px; font-size: 1.3rem; }
+      .close-btn { width: 44px; height: 44px; font-size: 2rem; top: 16px; right: 18px; }
+      .zoom-hint { font-size: 0.7rem; bottom: 12px; white-space: nowrap; }
+      .section-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <button class="theme-toggle" id="themeBtn" aria-label="Tukar tema">☀️</button>
+
+  <header>
+    <h1>📅 Kalendar Malaysia 2024</h1>
+    <div class="subtitle">Cuti Umum • Cuti Sekolah • Jadual Gaji • Long Weekend</div>
+  </header>
+
+  <div class="nav-container">
+    <div class="month-nav" id="monthNav">
+      <button class="month-btn" data-month="jan">Jan</button>
+      <button class="month-btn" data-month="feb">Feb</button>
+      <button class="month-btn" data-month="mac">Mac</button>
+      <button class="month-btn" data-month="apr">Apr</button>
+      <button class="month-btn" data-month="mei">Mei</button>
+      <button class="month-btn" data-month="jun">Jun</button>
+      <button class="month-btn" data-month="jul">Jul</button>
+      <button class="month-btn" data-month="ogo">Ogo</button>
+      <button class="month-btn" data-month="sep">Sep</button>
+      <button class="month-btn" data-month="okt">Okt</button>
+      <button class="month-btn" data-month="nov">Nov</button>
+      <button class="month-btn" data-month="dis">Dis</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2 class="section-title">🗓️ Kalendar Bulanan 2024</h2>
+    <div class="year-grid" id="calendarGrid"></div>
+
+    <h2 class="section-title">📌 Info Penting 2024</h2>
+    <div class="info-grid" id="infoGrid"></div>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="modal" id="imageModal">
+    <span class="close-btn" id="closeModal">✕</span>
+    <div class="modal-container" id="modalContainer">
+      <div class="modal-img-wrapper">
+        <img id="modalImage" src="" alt="Kalendar Malaysia 2024" draggable="false">
+      </div>
+    </div>
+    <div class="zoom-hint">🔍 Pinch / Ctrl + roda tetikus untuk zum | Tarik untuk pan</div>
+  </div>
+
+  <script>
+    // Data bulan untuk 2024
+    const monthsData = [
+      { id: "jan", name: "Januari 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0124.jpg" },
+      { id: "feb", name: "Februari 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0224.jpg" },
+      { id: "mac", name: "Mac 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0324.jpg" },
+      { id: "apr", name: "April 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0424.jpg" },
+      { id: "mei", name: "Mei 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0524.jpg" },
+      { id: "jun", name: "Jun 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0624.jpg" },
+      { id: "jul", name: "Julai 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0724.jpg" },
+      { id: "ogo", name: "Ogos 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0824.jpg" },
+      { id: "sep", name: "September 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy0924.jpg" },
+      { id: "okt", name: "Oktober 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy1024.jpg" },
+      { id: "nov", name: "November 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy1124.jpg" },
+      { id: "dis", name: "Disember 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/cnmy1224.jpg" }
+    ];
+
+    // Data info tambahan
+    const infoData = [
+      { name: "📅 Long Weekend 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/longweekend.jpg" },
+      { name: "💰 Jadual Gaji 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/myjg24.png" },
+      { name: "🎉 Public Holiday 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/myph24.png" },
+      { name: "🏫 School Holiday 2024", img: "https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/MALAYSIA%20CALENDER%202024/mysh24.png" }
+    ];
+
+    // Render Grid Bulanan
+    const gridContainer = document.getElementById('calendarGrid');
+    function renderCalendar() {
+      gridContainer.innerHTML = '';
+      monthsData.forEach(month => {
+        const card = document.createElement('div');
+        card.className = 'month-card';
+        card.id = month.id;
+        card.setAttribute('data-img', month.img);
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'month-title';
+        titleDiv.textContent = month.name;
+        
+        const imgElem = document.createElement('img');
+        imgElem.src = month.img;
+        imgElem.alt = month.name;
+        imgElem.className = 'month-image';
+        imgElem.loading = 'lazy';
+        imgElem.setAttribute('data-full', month.img);
+        
+        card.appendChild(titleDiv);
+        card.appendChild(imgElem);
+        gridContainer.appendChild(card);
+      });
+    }
+
+    // Render Info Grid
+    const infoGridContainer = document.getElementById('infoGrid');
+    function renderInfoCards() {
+      infoGridContainer.innerHTML = '';
+      infoData.forEach(info => {
+        const card = document.createElement('div');
+        card.className = 'info-card';
+        card.setAttribute('data-img', info.img);
+        
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'info-title';
+        titleDiv.textContent = info.name;
+        
+        const imgElem = document.createElement('img');
+        imgElem.src = info.img;
+        imgElem.alt = info.name;
+        imgElem.className = 'info-image';
+        imgElem.loading = 'lazy';
+        imgElem.setAttribute('data-full', info.img);
+        
+        card.appendChild(titleDiv);
+        card.appendChild(imgElem);
+        infoGridContainer.appendChild(card);
+      });
+    }
+
+    renderCalendar();
+    renderInfoCards();
+
+    // ----- THEME TOGGLE -----
+    const themeBtn = document.getElementById('themeBtn');
+    const rootBody = document.body;
+    function setTheme(theme) {
+      rootBody.setAttribute('data-theme', theme);
+      localStorage.setItem('calendar-theme', theme);
+      themeBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    }
+    const savedTheme = localStorage.getItem('calendar-theme');
+    if (savedTheme && (savedTheme === 'dark' || savedTheme === 'light')) {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+    themeBtn.addEventListener('click', () => {
+      const current = rootBody.getAttribute('data-theme');
+      const newTheme = current === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+
+    // ----- Smooth Scroll Navigation -----
+    document.querySelectorAll('.month-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const monthId = btn.getAttribute('data-month');
+        const targetCard = document.getElementById(monthId);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          targetCard.style.transition = 'box-shadow 0.2s';
+          targetCard.style.boxShadow = '0 0 0 3px var(--accent), 0 15px 30px rgba(0,0,0,0.3)';
+          setTimeout(() => {
+            targetCard.style.boxShadow = '';
+          }, 800);
+        }
+      });
+    });
+
+    // ========== LIGHTBOX + ZOOM + PAN ==========
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeModalBtn = document.getElementById('closeModal');
+    const modalContainerDiv = document.getElementById('modalContainer');
+    
+    let scale = 1;
+    let translateX = 0, translateY = 0;
+    let isDragging = false;
+    let startX = 0, startY = 0;
+
+    let initialPinchDist = 0;
+    let initialScale = 1;
+    let initialTransX = 0, initialTransY = 0;
+    let pinchCenterX = 0, pinchCenterY = 0;
+
+    function resetImageTransform() {
+      scale = 1;
+      translateX = 0;
+      translateY = 0;
+      applyTransform();
+    }
+
+    function applyTransform() {
+      modalImg.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+
+    function constrainPan() {
+      if (!modalImg.naturalWidth) return;
+      const viewW = window.innerWidth;
+      const viewH = window.innerHeight;
+      const scaledW = modalImg.naturalWidth * scale;
+      const scaledH = modalImg.naturalHeight * scale;
+      let maxX = Math.max(0, (scaledW - viewW) / 2);
+      let maxY = Math.max(0, (scaledH - viewH) / 2);
+      if (scaledW <= viewW) maxX = 0;
+      if (scaledH <= viewH) maxY = 0;
+      translateX = Math.min(maxX, Math.max(-maxX, translateX));
+      translateY = Math.min(maxY, Math.max(-maxY, translateY));
+      applyTransform();
+    }
+
+    function openModal(imgSrc, startRect) {
+      resetImageTransform();
+      modalImg.src = imgSrc;
+      modal.classList.add('active');
+      modalImg.style.opacity = '0';
+      modalImg.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2), opacity 0.3s';
+      if (startRect) {
+        const viewCenterX = window.innerWidth / 2;
+        const viewCenterY = window.innerHeight / 2;
+        const imgCenterX = startRect.left + startRect.width / 2;
+        const imgCenterY = startRect.top + startRect.height / 2;
+        const offsetX = imgCenterX - viewCenterX;
+        const offsetY = imgCenterY - viewCenterY;
+        const startScale = Math.min(0.4, (startRect.width / window.innerWidth) * 0.8);
+        modalImg.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${startScale})`;
+      } else {
+        modalImg.style.transform = `scale(0.7)`;
+      }
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modalImg.style.transition = 'transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.2), opacity 0.35s';
+        modalImg.style.transform = `translate(0px, 0px) scale(1)`;
+        modalImg.style.opacity = '1';
+        setTimeout(() => {
+          scale = 1;
+          translateX = 0;
+          translateY = 0;
+          applyTransform();
+          modalImg.style.transition = '';
+        }, 580);
+      }, 20);
+    }
+
+    // Event delegation untuk semua kad (bulan + info)
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.month-card, .info-card');
+      if (card && !modal.classList.contains('active')) {
+        const imgElement = card.querySelector('img');
+        if (imgElement) {
+          const rect = imgElement.getBoundingClientRect();
+          const fullUrl = imgElement.getAttribute('data-full') || imgElement.src;
+          openModal(fullUrl, rect);
+        }
+      }
+    });
+
+    function closeModalWithAnim() {
+      if (!modal.classList.contains('active')) return;
+      modalImg.style.transition = 'transform 0.3s ease, opacity 0.25s';
+      modalImg.style.transform = 'scale(0.85)';
+      modalImg.style.opacity = '0';
+      setTimeout(() => {
+        modal.classList.remove('active');
+        resetImageTransform();
+        modalImg.style.transition = '';
+      }, 280);
+    }
+    closeModalBtn.addEventListener('click', closeModalWithAnim);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target === modalContainerDiv) closeModalWithAnim();
+    });
+
+    // Wheel zoom
+    modalContainerDiv.addEventListener('wheel', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.92 : 1.08;
+      let newScale = scale * delta;
+      newScale = Math.min(Math.max(0.8, newScale), 6);
+      if (Math.abs(newScale - scale) < 0.01) return;
+      
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+      const rect = modalImg.getBoundingClientRect();
+      const ratioX = (mouseX - rect.left) / rect.width;
+      const ratioY = (mouseY - rect.top) / rect.height;
+      const oldScale = scale;
+      scale = newScale;
+      const dx = (ratioX - 0.5) * (rect.width * (scale / oldScale - 1));
+      const dy = (ratioY - 0.5) * (rect.height * (scale / oldScale - 1));
+      translateX += dx;
+      translateY += dy;
+      constrainPan();
+      applyTransform();
+    }, { passive: false });
+
+    // Mouse drag pan
+    modalImg.addEventListener('mousedown', (e) => {
+      if (!modal.classList.contains('active') || scale <= 1) return;
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      modalImg.style.cursor = 'grabbing';
+      modalImg.style.transition = 'none';
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging || !modal.classList.contains('active')) return;
+      e.preventDefault();
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      constrainPan();
+      applyTransform();
+    });
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        modalImg.style.cursor = 'grab';
+        modalImg.style.transition = '';
+      }
+    });
+
+    // Touch events
+    modalImg.addEventListener('touchstart', (e) => {
+      if (!modal.classList.contains('active')) return;
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        initialPinchDist = Math.hypot(touch1.clientX - touch2.clientX, touch1.clientY - touch2.clientY);
+        initialScale = scale;
+        initialTransX = translateX;
+        initialTransY = translateY;
+        pinchCenterX = (touch1.clientX + touch2.clientX) / 2;
+        pinchCenterY = (touch1.clientY + touch2.clientY) / 2;
+        modalImg.style.transition = 'none';
+      } else if (e.touches.length === 1 && scale > 1) {
+        const touch = e.touches[0];
+        isDragging = true;
+        startX = touch.clientX - translateX;
+        startY = touch.clientY - translateY;
+        modalImg.style.transition = 'none';
+        e.preventDefault();
+      }
+    });
+
+    modalImg.addEventListener('touchmove', (e) => {
+      if (!modal.classList.contains('active')) return;
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const t1 = e.touches[0];
+        const t2 = e.touches[1];
+        const currentDist = Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+        if (initialPinchDist > 0) {
+          let newScale = initialScale * (currentDist / initialPinchDist);
+          newScale = Math.min(Math.max(0.8, newScale), 6);
+          scale = newScale;
+          const currentCenterX = (t1.clientX + t2.clientX) / 2;
+          const currentCenterY = (t1.clientY + t2.clientY) / 2;
+          const deltaCenterX = currentCenterX - pinchCenterX;
+          const deltaCenterY = currentCenterY - pinchCenterY;
+          translateX = initialTransX + deltaCenterX;
+          translateY = initialTransY + deltaCenterY;
+          constrainPan();
+          applyTransform();
+        }
+      } else if (e.touches.length === 1 && isDragging && scale > 1) {
+        const touch = e.touches[0];
+        translateX = touch.clientX - startX;
+        translateY = touch.clientY - startY;
+        constrainPan();
+        applyTransform();
+        e.preventDefault();
+      }
+    });
+
+    modalImg.addEventListener('touchend', (e) => {
+      if (e.touches.length === 0) {
+        isDragging = false;
+        modalImg.style.transition = '';
+      }
+      if (e.touches.length < 2) {
+        initialPinchDist = 0;
+      }
+    });
+    
+    modalImg.addEventListener('dblclick', (e) => {
+      if (!modal.classList.contains('active')) return;
+      e.preventDefault();
+      if (scale > 1.2) {
+        resetImageTransform();
+      } else {
+        scale = 2.2;
+        translateX = 0;
+        translateY = 0;
+        constrainPan();
+        applyTransform();
+      }
+    });
+    
+    modalImg.style.cursor = 'grab';
+  </script>
+</body>
+</html>
