@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zahiruddin — Projek Saya</title>
+
+<!-- ===== FAVICON ===== -->
+<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+<link rel="shortcut icon" type="image/jpeg" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/zahiruddin0/HTML-2/refs/heads/main/PROFILE%20ZAHIRUDDIN/ZAHIRUDDIN.jpg">
+
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,400&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;1,300&family=Share+Tech+Mono&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700&family=Press+Start+2P&family=VT323&family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -209,7 +215,7 @@
   body.theme-glass .advanced-panel { background: rgba(10,6,30,0.85); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08); }
 
   /* ===================================================== */
-  /* ===== TEMA LIQUID GLASS (BARU — iOS 26 inspired) ===== */
+  /* ===== TEMA LIQUID GLASS ===== */
   /* ===================================================== */
   body.theme-liquidglass {
     --bg: #d8e8f5;
@@ -225,7 +231,6 @@
     --font-body: 'DM Sans', sans-serif;
   }
 
-  /* Latar belakang cair — gradien pastel bergerak */
   body.theme-liquidglass::before {
     content: '';
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -238,7 +243,6 @@
     animation: liquidBgFlow 14s ease-in-out infinite alternate;
   }
 
-  /* Blob cair terapung */
   body.theme-liquidglass::after {
     content: '';
     position: fixed; inset: 0; z-index: 0; pointer-events: none;
@@ -264,7 +268,6 @@
     100% { transform: translate(-15px, 10px) scale(0.96); }
   }
 
-  /* Avatar */
   body.theme-liquidglass .avatar {
     border-radius: 50%;
     border: 2px solid rgba(255,255,255,0.75);
@@ -284,7 +287,6 @@
     filter: drop-shadow(0 0 5px rgba(0,113,227,0.4));
   }
 
-  /* Nama — teks gelap, tebal, bersih */
   body.theme-liquidglass .profile-name {
     color: #1d1d1f;
     font-weight: 700;
@@ -321,7 +323,6 @@
     box-shadow: 0 0 6px rgba(52,170,220,0.7);
   }
 
-  /* Kad pautan — kaca cair */
   body.theme-liquidglass .link-card {
     border-radius: 22px;
     background: rgba(255,255,255,0.28);
@@ -339,7 +340,6 @@
     overflow: hidden;
   }
 
-  /* Pantulan cahaya di bahagian atas kad */
   body.theme-liquidglass .link-card::after {
     content: '';
     position: absolute;
@@ -409,7 +409,6 @@
     font-size: 10px;
   }
 
-  /* Theme switcher — kaca cair */
   body.theme-liquidglass .theme-switcher {
     background: rgba(255,255,255,0.35);
     backdrop-filter: blur(20px) saturate(200%);
@@ -467,6 +466,597 @@
   }
 
   /* ===================================================== */
+  /* TEMA SAKURA, RETRO 80s, MINIMALIST */
+  /* ===================================================== */
+  body.theme-sakura {
+    --bg: #fdf6f0;
+    --surface: rgba(255,182,193,0.12);
+    --surface-hover: rgba(255,182,193,0.22);
+    --accent: #c0687a;
+    --accent2: #e8a0b0;
+    --text: #2d1a1e;
+    --text-muted: rgba(45,26,30,0.42);
+    --border: rgba(192,104,122,0.22);
+    --glow: 0 4px 24px rgba(192,104,122,0.18);
+    --font-display: 'Noto Serif JP', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  body.theme-sakura::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 15% 10%, rgba(255,192,203,0.45), transparent 55%),
+      radial-gradient(ellipse 60% 70% at 85% 20%, rgba(255,218,230,0.4), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 50% 95%, rgba(255,160,180,0.25), transparent 55%),
+      radial-gradient(ellipse 50% 60% at 90% 80%, rgba(230,180,200,0.3), transparent 55%),
+      linear-gradient(170deg, #fff5f7 0%, #fdeef2 35%, #fdf0e8 65%, #fef8f0 100%);
+    animation: sakuraBgDrift 16s ease-in-out infinite alternate;
+  }
+
+  body.theme-sakura::after {
+    content: '🌸';
+    position: fixed; top: -60px; left: 15%;
+    font-size: 18px; z-index: 0; pointer-events: none;
+    animation: petalFall1 8s linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes sakuraBgDrift {
+    0%   { opacity: 0.9; transform: translate(0, 0) scale(1); }
+    50%  { opacity: 1;   transform: translate(-8px, 6px) scale(1.02); }
+    100% { opacity: 0.88; transform: translate(6px, -5px) scale(0.99); }
+  }
+
+  @keyframes petalFall1 {
+    0%   { top: -60px; left: 15%; transform: rotate(0deg) translateX(0); opacity: 0; }
+    10%  { opacity: 0.6; }
+    90%  { opacity: 0.4; }
+    100% { top: 110vh; left: 22%; transform: rotate(540deg) translateX(60px); opacity: 0; }
+  }
+
+  body.theme-sakura .wrapper::before {
+    content: '🌸';
+    position: fixed; top: -60px; left: 60%;
+    font-size: 14px; z-index: 0; pointer-events: none;
+    animation: petalFall1 11s 3s linear infinite;
+    opacity: 0.35;
+  }
+  body.theme-sakura .wrapper::after {
+    content: '🌸';
+    position: fixed; top: -60px; left: 80%;
+    font-size: 22px; z-index: 0; pointer-events: none;
+    animation: petalFall1 9s 5s linear infinite;
+    opacity: 0.3;
+  }
+
+  body.theme-sakura .avatar {
+    border-radius: 50%;
+    border: 2px solid rgba(192,104,122,0.4);
+    box-shadow:
+      0 0 0 5px rgba(255,182,193,0.2),
+      0 8px 32px rgba(192,104,122,0.15);
+  }
+
+  body.theme-sakura .avatar-ring {
+    border-top-color: #c0687a;
+    border-right-color: rgba(232,160,176,0.4);
+    border-bottom-color: #e8a0b0;
+    border-left-color: rgba(192,104,122,0.4);
+    animation-duration: 10s;
+  }
+
+  body.theme-sakura .profile-name {
+    color: #2d1a1e;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: clamp(22px, 5.5vw, 30px);
+    text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+  }
+
+  body.theme-sakura .profile-name::before {
+    content: '桜 ';
+    color: rgba(192,104,122,0.45);
+    font-size: 0.65em;
+    vertical-align: middle;
+  }
+  body.theme-sakura .profile-name::after {
+    content: ' 花';
+    color: rgba(192,104,122,0.45);
+    font-size: 0.65em;
+    vertical-align: middle;
+  }
+
+  body.theme-sakura .profile-bio {
+    color: rgba(45,26,30,0.5);
+    font-size: 14px;
+    font-style: italic;
+    letter-spacing: 0.01em;
+  }
+
+  body.theme-sakura .profile-tag {
+    border-radius: 100px;
+    border: 1px solid rgba(192,104,122,0.35);
+    background: rgba(255,182,193,0.18);
+    color: #c0687a;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(192,104,122,0.1);
+  }
+
+  body.theme-sakura .tag-dot {
+    background: #e8a0b0;
+    box-shadow: 0 0 6px rgba(232,160,176,0.7);
+  }
+
+  body.theme-sakura .link-card {
+    border-radius: 18px;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(192,104,122,0.2);
+    box-shadow:
+      0 2px 16px rgba(192,104,122,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.9);
+    color: #2d1a1e;
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  body.theme-sakura .link-card:hover {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(192,104,122,0.4);
+    box-shadow: 0 8px 32px rgba(192,104,122,0.16), inset 0 1px 0 rgba(255,255,255,1);
+    transform: translateY(-4px) scale(1.005);
+  }
+
+  body.theme-sakura .link-card::before {
+    background: linear-gradient(180deg, #c0687a, #e8a0b0);
+    border-radius: 18px 0 0 18px;
+  }
+
+  body.theme-sakura .link-icon {
+    border-radius: 12px;
+    background: rgba(255,182,193,0.2);
+    border: 1px solid rgba(192,104,122,0.2);
+  }
+
+  body.theme-sakura .link-title { color: #2d1a1e; font-weight: 600; }
+  body.theme-sakura .link-url { color: rgba(45,26,30,0.38); }
+  body.theme-sakura .link-arrow { color: rgba(192,104,122,0.4); }
+  body.theme-sakura .link-card:hover .link-arrow { color: #c0687a; }
+
+  body.theme-sakura .divider-line {
+    background: linear-gradient(90deg, transparent, rgba(192,104,122,0.3), transparent);
+  }
+  body.theme-sakura .divider-label { color: rgba(45,26,30,0.35); letter-spacing: 0.25em; }
+
+  body.theme-sakura .theme-switcher {
+    background: rgba(255,245,247,0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(192,104,122,0.25);
+    border-radius: 50px;
+    box-shadow: 0 4px 20px rgba(192,104,122,0.1);
+  }
+
+  body.theme-sakura .more-btn {
+    border-radius: 30px;
+    border: 1px solid rgba(192,104,122,0.3);
+    color: #c0687a;
+    background: rgba(255,182,193,0.15);
+  }
+
+  body.theme-sakura .footer { color: rgba(45,26,30,0.3); }
+  body.theme-sakura .footer span { color: #c0687a; }
+
+  body.theme-sakura .advanced-panel {
+    background: rgba(254,248,245,0.92);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(192,104,122,0.2);
+    border-radius: 20px;
+    box-shadow: 0 16px 48px rgba(192,104,122,0.15);
+  }
+  body.theme-sakura .panel-label { color: rgba(45,26,30,0.35); border-color: rgba(192,104,122,0.12); }
+  body.theme-sakura .panel-name { color: #2d1a1e; }
+  body.theme-sakura .panel-desc { color: rgba(45,26,30,0.38); }
+  body.theme-sakura .panel-theme-btn:hover { background: rgba(255,182,193,0.15); border-color: rgba(192,104,122,0.3); }
+
+  /* TEMA RETRO 80s */
+  body.theme-retro80s {
+    --bg: #0d0015;
+    --surface: rgba(255,0,255,0.05);
+    --surface-hover: rgba(255,0,255,0.1);
+    --accent: #ff00ff;
+    --accent2: #ffee00;
+    --text: #f0e0ff;
+    --text-muted: rgba(220,180,255,0.4);
+    --border: rgba(255,0,255,0.25);
+    --glow: 0 0 20px rgba(255,0,255,0.5), 0 0 60px rgba(255,0,255,0.15);
+    --font-display: 'VT323', monospace;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  body.theme-retro80s::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      linear-gradient(180deg,
+        #0d0015 0%,
+        #1a0030 25%,
+        #2d0050 45%,
+        #ff6b35 65%,
+        #ff2070 75%,
+        #ff00aa 85%,
+        #cc00ff 100%
+      );
+    opacity: 0.85;
+  }
+
+  body.theme-retro80s::after {
+    content: '';
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,0,255,0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,0,255,0.35) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(400px) rotateX(65deg);
+    transform-origin: bottom center;
+    animation: retroGridScroll 4s linear infinite;
+    mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+  }
+
+  @keyframes retroGridScroll {
+    from { background-position: 0 0; }
+    to   { background-position: 0 60px; }
+  }
+
+  body.theme-retro80s .wrapper::before {
+    content: '';
+    position: fixed;
+    top: 28%; left: 50%;
+    transform: translateX(-50%);
+    width: 180px; height: 90px;
+    background: linear-gradient(180deg, #ffee00 0%, #ff8800 40%, transparent 100%);
+    border-radius: 90px 90px 0 0;
+    z-index: 0; pointer-events: none;
+    box-shadow:
+      0 0 60px rgba(255,200,0,0.6),
+      0 0 120px rgba(255,120,0,0.3);
+    opacity: 0.8;
+    overflow: hidden;
+  }
+
+  body.theme-retro80s .wrapper::after {
+    content: '';
+    position: fixed;
+    top: 28%; left: 50%;
+    transform: translateX(-50%);
+    width: 180px; height: 90px;
+    border-radius: 90px 90px 0 0;
+    z-index: 1; pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(13,0,21,0.55) 8px,
+      rgba(13,0,21,0.55) 12px
+    );
+    overflow: hidden;
+  }
+
+  body.theme-retro80s .avatar {
+    border-radius: 50%;
+    border: 2px solid #ff00ff;
+    box-shadow:
+      0 0 0 4px rgba(255,0,255,0.15),
+      0 0 30px rgba(255,0,255,0.5),
+      0 0 60px rgba(255,0,255,0.2);
+    filter: saturate(1.2) contrast(1.1);
+  }
+
+  body.theme-retro80s .avatar-ring {
+    border-top-color: #ff00ff;
+    border-right-color: rgba(255,238,0,0.6);
+    border-bottom-color: #ffee00;
+    border-left-color: rgba(255,0,255,0.6);
+    animation-duration: 4s;
+    filter: drop-shadow(0 0 8px #ff00ff);
+  }
+
+  body.theme-retro80s .profile-name {
+    font-size: clamp(32px, 8vw, 52px);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ffffff;
+    text-shadow:
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 40px #ff00ff,
+      3px 3px 0 #aa00aa,
+      6px 6px 0 rgba(170,0,170,0.4);
+    animation: retroNameFlicker 5s ease-in-out infinite;
+  }
+
+  @keyframes retroNameFlicker {
+    0%, 95%, 100% { opacity: 1; }
+    96% { opacity: 0.85; }
+    97% { opacity: 1; }
+    98% { opacity: 0.9; }
+  }
+
+  body.theme-retro80s .profile-bio {
+    color: rgba(220,180,255,0.55);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  body.theme-retro80s .profile-tag {
+    border-radius: 3px;
+    border: 1px solid rgba(255,0,255,0.6);
+    background: rgba(255,0,255,0.08);
+    color: #ff00ff;
+    text-shadow: 0 0 8px #ff00ff;
+    box-shadow: 0 0 12px rgba(255,0,255,0.2), inset 0 0 8px rgba(255,0,255,0.05);
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+  }
+
+  body.theme-retro80s .tag-dot {
+    background: #ffee00;
+    box-shadow: 0 0 8px #ffee00, 0 0 16px rgba(255,238,0,0.5);
+    border-radius: 0;
+  }
+
+  body.theme-retro80s .link-card {
+    border-radius: 4px;
+    background: rgba(20,0,40,0.7);
+    border: 1px solid rgba(255,0,255,0.3);
+    border-top: 1px solid rgba(255,238,0,0.2);
+    box-shadow:
+      0 0 0 1px rgba(255,0,255,0.08),
+      inset 0 1px 0 rgba(255,238,0,0.1);
+    color: #f0e0ff;
+    backdrop-filter: blur(8px);
+    transition: all 0.25s;
+  }
+
+  body.theme-retro80s .link-card:hover {
+    background: rgba(40,0,70,0.85);
+    border-color: #ff00ff;
+    box-shadow:
+      0 0 20px rgba(255,0,255,0.4),
+      0 0 50px rgba(255,0,255,0.1),
+      inset 0 1px 0 rgba(255,238,0,0.2);
+    transform: translateY(-3px);
+  }
+
+  body.theme-retro80s .link-card::before {
+    background: linear-gradient(180deg, #ffee00, #ff00ff);
+    border-radius: 0;
+    width: 3px;
+  }
+
+  body.theme-retro80s .link-icon {
+    border-radius: 3px;
+    background: rgba(255,0,255,0.08);
+    border: 1px solid rgba(255,0,255,0.3);
+    box-shadow: 0 0 10px rgba(255,0,255,0.15);
+  }
+
+  body.theme-retro80s .link-title {
+    color: #ffee00;
+    text-shadow: 0 0 8px rgba(255,238,0,0.5);
+    letter-spacing: 0.05em;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  body.theme-retro80s .link-url {
+    color: rgba(255,0,255,0.5);
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+
+  body.theme-retro80s .link-arrow { color: rgba(255,0,255,0.4); }
+  body.theme-retro80s .link-card:hover .link-arrow { color: #ffee00; text-shadow: 0 0 8px #ffee00; }
+
+  body.theme-retro80s .divider-line {
+    background: linear-gradient(90deg, transparent, rgba(255,0,255,0.4), rgba(255,238,0,0.3), transparent);
+  }
+  body.theme-retro80s .divider-label {
+    color: rgba(255,0,255,0.6);
+    text-shadow: 0 0 8px rgba(255,0,255,0.4);
+    letter-spacing: 0.3em;
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+  }
+
+  body.theme-retro80s .theme-switcher {
+    background: rgba(10,0,25,0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,0,255,0.35);
+    border-radius: 4px;
+    box-shadow: 0 0 15px rgba(255,0,255,0.2);
+  }
+
+  body.theme-retro80s .more-btn {
+    border-radius: 3px;
+    border: 1px solid rgba(255,0,255,0.5);
+    color: #ff00ff;
+    background: rgba(255,0,255,0.07);
+    text-shadow: 0 0 6px rgba(255,0,255,0.5);
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+  }
+
+  body.theme-retro80s .footer { color: rgba(220,180,255,0.3); font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em; }
+  body.theme-retro80s .footer span { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
+
+  body.theme-retro80s .advanced-panel {
+    background: rgba(8,0,20,0.97);
+    border: 1px solid rgba(255,0,255,0.4);
+    border-radius: 4px;
+    box-shadow: 0 0 30px rgba(255,0,255,0.2), 0 20px 60px rgba(0,0,0,0.8);
+  }
+  body.theme-retro80s .panel-label { color: rgba(255,0,255,0.45); border-color: rgba(255,0,255,0.15); font-family: 'VT323', monospace; letter-spacing: 0.15em; font-size: 12px; }
+  body.theme-retro80s .panel-name { color: #ffee00; font-family: 'VT323', monospace; font-size: 15px; letter-spacing: 0.05em; font-weight: 400; }
+  body.theme-retro80s .panel-desc { color: rgba(255,0,255,0.4); }
+  body.theme-retro80s .panel-theme-btn:hover { background: rgba(255,0,255,0.1); border-color: rgba(255,0,255,0.4); }
+
+  /* TEMA MINIMALIST */
+  body.theme-minimal {
+    --bg: #f8f8f6;
+    --surface: rgba(0,0,0,0.03);
+    --surface-hover: rgba(0,0,0,0.06);
+    --accent: #111111;
+    --accent2: #888888;
+    --text: #111111;
+    --text-muted: #aaaaaa;
+    --border: rgba(0,0,0,0.1);
+    --glow: none;
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  body.theme-minimal::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 90% 5%, rgba(0,0,0,0.02), transparent),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(0,0,0,0.025) 79px, rgba(0,0,0,0.025) 80px),
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(0,0,0,0.025) 79px, rgba(0,0,0,0.025) 80px);
+  }
+
+  body.theme-minimal .avatar {
+    border-radius: 50%;
+    border: 1.5px solid rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    filter: grayscale(0.15);
+  }
+
+  body.theme-minimal .avatar-ring {
+    border-top-color: #111;
+    border-right-color: transparent;
+    border-bottom-color: #bbb;
+    border-left-color: transparent;
+    animation-duration: 14s;
+    border-width: 1px;
+  }
+
+  body.theme-minimal .profile-name {
+    color: #111111;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    font-size: clamp(28px, 7vw, 40px);
+    text-shadow: none;
+  }
+
+  body.theme-minimal .profile-bio {
+    color: #aaaaaa;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  body.theme-minimal .profile-tag {
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.15);
+    background: transparent;
+    color: #555555;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    font-size: 10px;
+  }
+
+  body.theme-minimal .tag-dot {
+    background: #111;
+    box-shadow: none;
+    border-radius: 50%;
+  }
+
+  body.theme-minimal .link-card {
+    border-radius: 8px;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    color: #111111;
+    transition: all 0.2s ease;
+  }
+
+  body.theme-minimal .link-card:hover {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.2);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
+    transform: translateY(-2px);
+  }
+
+  body.theme-minimal .link-card::before {
+    background: #111111;
+    border-radius: 8px 0 0 8px;
+    width: 2px;
+  }
+
+  body.theme-minimal .link-icon {
+    border-radius: 8px;
+    background: rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.08);
+    filter: grayscale(0.3);
+  }
+
+  body.theme-minimal .link-title {
+    font-weight: 600;
+    color: #111111;
+    letter-spacing: -0.02em;
+    font-size: 14px;
+  }
+
+  body.theme-minimal .link-url { color: #cccccc; font-size: 11px; }
+  body.theme-minimal .link-arrow { color: #cccccc; font-size: 16px; }
+  body.theme-minimal .link-card:hover .link-arrow { color: #111111; transform: translateX(4px); }
+
+  body.theme-minimal .divider-line {
+    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
+  }
+  body.theme-minimal .divider-label {
+    color: #cccccc;
+    letter-spacing: 0.25em;
+    font-size: 9px;
+    font-weight: 500;
+  }
+
+  body.theme-minimal .theme-switcher {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  body.theme-minimal .more-btn {
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.15);
+    color: #444444;
+    background: transparent;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+
+  body.theme-minimal .footer { color: #cccccc; letter-spacing: 0.15em; }
+  body.theme-minimal .footer span { color: #111111; text-shadow: none; }
+
+  body.theme-minimal .advanced-panel {
+    background: rgba(250,250,248,0.97);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+  }
+  body.theme-minimal .panel-label { color: #bbbbbb; border-color: rgba(0,0,0,0.07); }
+  body.theme-minimal .panel-name { color: #111111; font-weight: 600; }
+  body.theme-minimal .panel-desc { color: #bbbbbb; }
+  body.theme-minimal .panel-theme-btn:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); }
 
   body {
     background: var(--bg);
@@ -727,12 +1317,22 @@
   .link-card:hover::before { transform: scaleY(1); }
   body.theme-brutalist .link-card::before { display: none; }
 
-  .link-card:nth-child(1) { animation-delay: 0.15s; }
-  .link-card:nth-child(2) { animation-delay: 0.22s; }
-  .link-card:nth-child(3) { animation-delay: 0.29s; }
-  .link-card:nth-child(4) { animation-delay: 0.36s; }
-  .link-card:nth-child(5) { animation-delay: 0.43s; }
-  .link-card:nth-child(6) { animation-delay: 0.50s; }
+  .link-card:nth-child(1) { animation-delay: 0.05s; }
+  .link-card:nth-child(2) { animation-delay: 0.08s; }
+  .link-card:nth-child(3) { animation-delay: 0.11s; }
+  .link-card:nth-child(4) { animation-delay: 0.14s; }
+  .link-card:nth-child(5) { animation-delay: 0.17s; }
+  .link-card:nth-child(6) { animation-delay: 0.20s; }
+  .link-card:nth-child(7) { animation-delay: 0.23s; }
+  .link-card:nth-child(8) { animation-delay: 0.26s; }
+  .link-card:nth-child(9) { animation-delay: 0.29s; }
+  .link-card:nth-child(10) { animation-delay: 0.32s; }
+  .link-card:nth-child(11) { animation-delay: 0.35s; }
+  .link-card:nth-child(12) { animation-delay: 0.38s; }
+  .link-card:nth-child(13) { animation-delay: 0.41s; }
+  .link-card:nth-child(14) { animation-delay: 0.44s; }
+  .link-card:nth-child(15) { animation-delay: 0.47s; }
+  .link-card:nth-child(16) { animation-delay: 0.50s; }
 
   .link-icon {
     width: 48px; height: 48px; border-radius: 12px;
@@ -775,614 +1375,6 @@
     from { opacity: 0; transform: translateY(18px); }
     to   { opacity: 1; transform: translateY(0); }
   }
-
-  /* ============================================ */
-  /* ===== TEMA SAKURA 🌸 (Jepun / Wabi-Sabi) === */
-  /* ============================================ */
-  body.theme-sakura {
-    --bg: #fdf6f0;
-    --surface: rgba(255,182,193,0.12);
-    --surface-hover: rgba(255,182,193,0.22);
-    --accent: #c0687a;
-    --accent2: #e8a0b0;
-    --text: #2d1a1e;
-    --text-muted: rgba(45,26,30,0.42);
-    --border: rgba(192,104,122,0.22);
-    --glow: 0 4px 24px rgba(192,104,122,0.18);
-    --font-display: 'Noto Serif JP', serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
-
-  /* Latar belakang — kertas washi dengan warna pastel sakura */
-  body.theme-sakura::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse 80% 60% at 15% 10%, rgba(255,192,203,0.45), transparent 55%),
-      radial-gradient(ellipse 60% 70% at 85% 20%, rgba(255,218,230,0.4), transparent 55%),
-      radial-gradient(ellipse 70% 50% at 50% 95%, rgba(255,160,180,0.25), transparent 55%),
-      radial-gradient(ellipse 50% 60% at 90% 80%, rgba(230,180,200,0.3), transparent 55%),
-      linear-gradient(170deg, #fff5f7 0%, #fdeef2 35%, #fdf0e8 65%, #fef8f0 100%);
-    animation: sakuraBgDrift 16s ease-in-out infinite alternate;
-  }
-
-  /* Kelopak sakura jatuh */
-  body.theme-sakura::after {
-    content: '🌸';
-    position: fixed; top: -60px; left: 15%;
-    font-size: 18px; z-index: 0; pointer-events: none;
-    animation: petalFall1 8s linear infinite;
-    opacity: 0.5;
-  }
-
-  @keyframes sakuraBgDrift {
-    0%   { opacity: 0.9; transform: translate(0, 0) scale(1); }
-    50%  { opacity: 1;   transform: translate(-8px, 6px) scale(1.02); }
-    100% { opacity: 0.88; transform: translate(6px, -5px) scale(0.99); }
-  }
-
-  @keyframes petalFall1 {
-    0%   { top: -60px; left: 15%; transform: rotate(0deg) translateX(0); opacity: 0; }
-    10%  { opacity: 0.6; }
-    90%  { opacity: 0.4; }
-    100% { top: 110vh; left: 22%; transform: rotate(540deg) translateX(60px); opacity: 0; }
-  }
-
-  /* Kelopak tambahan via pseudo di .wrapper */
-  body.theme-sakura .wrapper::before {
-    content: '🌸';
-    position: fixed; top: -60px; left: 60%;
-    font-size: 14px; z-index: 0; pointer-events: none;
-    animation: petalFall1 11s 3s linear infinite;
-    opacity: 0.35;
-  }
-  body.theme-sakura .wrapper::after {
-    content: '🌸';
-    position: fixed; top: -60px; left: 80%;
-    font-size: 22px; z-index: 0; pointer-events: none;
-    animation: petalFall1 9s 5s linear infinite;
-    opacity: 0.3;
-  }
-
-  body.theme-sakura .avatar {
-    border-radius: 50%;
-    border: 2px solid rgba(192,104,122,0.4);
-    box-shadow:
-      0 0 0 5px rgba(255,182,193,0.2),
-      0 8px 32px rgba(192,104,122,0.15);
-  }
-
-  body.theme-sakura .avatar-ring {
-    border-top-color: #c0687a;
-    border-right-color: rgba(232,160,176,0.4);
-    border-bottom-color: #e8a0b0;
-    border-left-color: rgba(192,104,122,0.4);
-    animation-duration: 10s;
-  }
-
-  body.theme-sakura .profile-name {
-    color: #2d1a1e;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    font-size: clamp(22px, 5.5vw, 30px);
-    text-shadow: 0 1px 0 rgba(255,255,255,0.8);
-  }
-
-  /* Hiasan kanji di tepi nama */
-  body.theme-sakura .profile-name::before {
-    content: '桜 ';
-    color: rgba(192,104,122,0.45);
-    font-size: 0.65em;
-    vertical-align: middle;
-  }
-  body.theme-sakura .profile-name::after {
-    content: ' 花';
-    color: rgba(192,104,122,0.45);
-    font-size: 0.65em;
-    vertical-align: middle;
-  }
-
-  body.theme-sakura .profile-bio {
-    color: rgba(45,26,30,0.5);
-    font-size: 14px;
-    font-style: italic;
-    letter-spacing: 0.01em;
-  }
-
-  body.theme-sakura .profile-tag {
-    border-radius: 100px;
-    border: 1px solid rgba(192,104,122,0.35);
-    background: rgba(255,182,193,0.18);
-    color: #c0687a;
-    font-weight: 600;
-    box-shadow: 0 2px 12px rgba(192,104,122,0.1);
-  }
-
-  body.theme-sakura .tag-dot {
-    background: #e8a0b0;
-    box-shadow: 0 0 6px rgba(232,160,176,0.7);
-  }
-
-  body.theme-sakura .link-card {
-    border-radius: 18px;
-    background: rgba(255,255,255,0.65);
-    border: 1px solid rgba(192,104,122,0.2);
-    box-shadow:
-      0 2px 16px rgba(192,104,122,0.08),
-      inset 0 1px 0 rgba(255,255,255,0.9);
-    color: #2d1a1e;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  body.theme-sakura .link-card:hover {
-    background: rgba(255,255,255,0.85);
-    border-color: rgba(192,104,122,0.4);
-    box-shadow: 0 8px 32px rgba(192,104,122,0.16), inset 0 1px 0 rgba(255,255,255,1);
-    transform: translateY(-4px) scale(1.005);
-  }
-
-  body.theme-sakura .link-card::before {
-    background: linear-gradient(180deg, #c0687a, #e8a0b0);
-    border-radius: 18px 0 0 18px;
-  }
-
-  body.theme-sakura .link-icon {
-    border-radius: 12px;
-    background: rgba(255,182,193,0.2);
-    border: 1px solid rgba(192,104,122,0.2);
-  }
-
-  body.theme-sakura .link-title { color: #2d1a1e; font-weight: 600; }
-  body.theme-sakura .link-url { color: rgba(45,26,30,0.38); }
-  body.theme-sakura .link-arrow { color: rgba(192,104,122,0.4); }
-  body.theme-sakura .link-card:hover .link-arrow { color: #c0687a; }
-
-  body.theme-sakura .divider-line {
-    background: linear-gradient(90deg, transparent, rgba(192,104,122,0.3), transparent);
-  }
-  body.theme-sakura .divider-label { color: rgba(45,26,30,0.35); letter-spacing: 0.25em; }
-
-  body.theme-sakura .theme-switcher {
-    background: rgba(255,245,247,0.8);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(192,104,122,0.25);
-    border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(192,104,122,0.1);
-  }
-
-  body.theme-sakura .more-btn {
-    border-radius: 30px;
-    border: 1px solid rgba(192,104,122,0.3);
-    color: #c0687a;
-    background: rgba(255,182,193,0.15);
-  }
-
-  body.theme-sakura .footer { color: rgba(45,26,30,0.3); }
-  body.theme-sakura .footer span { color: #c0687a; }
-
-  body.theme-sakura .advanced-panel {
-    background: rgba(254,248,245,0.92);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(192,104,122,0.2);
-    border-radius: 20px;
-    box-shadow: 0 16px 48px rgba(192,104,122,0.15);
-  }
-  body.theme-sakura .panel-label { color: rgba(45,26,30,0.35); border-color: rgba(192,104,122,0.12); }
-  body.theme-sakura .panel-name { color: #2d1a1e; }
-  body.theme-sakura .panel-desc { color: rgba(45,26,30,0.38); }
-  body.theme-sakura .panel-theme-btn:hover { background: rgba(255,182,193,0.15); border-color: rgba(192,104,122,0.3); }
-
-
-  /* ============================================ */
-  /* ===== TEMA RETRO 80s 🕹️ (Synthwave) ======= */
-  /* ============================================ */
-  body.theme-retro80s {
-    --bg: #0d0015;
-    --surface: rgba(255,0,255,0.05);
-    --surface-hover: rgba(255,0,255,0.1);
-    --accent: #ff00ff;
-    --accent2: #ffee00;
-    --text: #f0e0ff;
-    --text-muted: rgba(220,180,255,0.4);
-    --border: rgba(255,0,255,0.25);
-    --glow: 0 0 20px rgba(255,0,255,0.5), 0 0 60px rgba(255,0,255,0.15);
-    --font-display: 'VT323', monospace;
-    --font-body: 'DM Sans', sans-serif;
-  }
-
-  /* Grid perspektif synthwave + gradien matahari terbenam */
-  body.theme-retro80s::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      linear-gradient(180deg,
-        #0d0015 0%,
-        #1a0030 25%,
-        #2d0050 45%,
-        #ff6b35 65%,
-        #ff2070 75%,
-        #ff00aa 85%,
-        #cc00ff 100%
-      );
-    opacity: 0.85;
-  }
-
-  /* Grid lantai perspektif */
-  body.theme-retro80s::after {
-    content: '';
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 55%;
-    z-index: 0; pointer-events: none;
-    background-image:
-      linear-gradient(rgba(255,0,255,0.35) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,0,255,0.35) 1px, transparent 1px);
-    background-size: 60px 60px;
-    transform: perspective(400px) rotateX(65deg);
-    transform-origin: bottom center;
-    animation: retroGridScroll 4s linear infinite;
-    mask-image: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
-  }
-
-  @keyframes retroGridScroll {
-    from { background-position: 0 0; }
-    to   { background-position: 0 60px; }
-  }
-
-  /* Matahari retro */
-  body.theme-retro80s .wrapper::before {
-    content: '';
-    position: fixed;
-    top: 28%; left: 50%;
-    transform: translateX(-50%);
-    width: 180px; height: 90px;
-    background: linear-gradient(180deg, #ffee00 0%, #ff8800 40%, transparent 100%);
-    border-radius: 90px 90px 0 0;
-    z-index: 0; pointer-events: none;
-    box-shadow:
-      0 0 60px rgba(255,200,0,0.6),
-      0 0 120px rgba(255,120,0,0.3);
-    opacity: 0.8;
-    overflow: hidden;
-  }
-
-  /* Garis imbasan pada matahari */
-  body.theme-retro80s .wrapper::after {
-    content: '';
-    position: fixed;
-    top: 28%; left: 50%;
-    transform: translateX(-50%);
-    width: 180px; height: 90px;
-    border-radius: 90px 90px 0 0;
-    z-index: 1; pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 8px,
-      rgba(13,0,21,0.55) 8px,
-      rgba(13,0,21,0.55) 12px
-    );
-    overflow: hidden;
-  }
-
-  body.theme-retro80s .avatar {
-    border-radius: 50%;
-    border: 2px solid #ff00ff;
-    box-shadow:
-      0 0 0 4px rgba(255,0,255,0.15),
-      0 0 30px rgba(255,0,255,0.5),
-      0 0 60px rgba(255,0,255,0.2);
-    filter: saturate(1.2) contrast(1.1);
-  }
-
-  body.theme-retro80s .avatar-ring {
-    border-top-color: #ff00ff;
-    border-right-color: rgba(255,238,0,0.6);
-    border-bottom-color: #ffee00;
-    border-left-color: rgba(255,0,255,0.6);
-    animation-duration: 4s;
-    filter: drop-shadow(0 0 8px #ff00ff);
-  }
-
-  body.theme-retro80s .profile-name {
-    font-size: clamp(32px, 8vw, 52px);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #ffffff;
-    text-shadow:
-      0 0 10px #ff00ff,
-      0 0 20px #ff00ff,
-      0 0 40px #ff00ff,
-      3px 3px 0 #aa00aa,
-      6px 6px 0 rgba(170,0,170,0.4);
-    animation: retroNameFlicker 5s ease-in-out infinite;
-  }
-
-  @keyframes retroNameFlicker {
-    0%, 95%, 100% { opacity: 1; }
-    96% { opacity: 0.85; }
-    97% { opacity: 1; }
-    98% { opacity: 0.9; }
-  }
-
-  body.theme-retro80s .profile-bio {
-    color: rgba(220,180,255,0.55);
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  body.theme-retro80s .profile-tag {
-    border-radius: 3px;
-    border: 1px solid rgba(255,0,255,0.6);
-    background: rgba(255,0,255,0.08);
-    color: #ff00ff;
-    text-shadow: 0 0 8px #ff00ff;
-    box-shadow: 0 0 12px rgba(255,0,255,0.2), inset 0 0 8px rgba(255,0,255,0.05);
-    font-family: 'VT323', monospace;
-    font-size: 14px;
-    letter-spacing: 0.12em;
-  }
-
-  body.theme-retro80s .tag-dot {
-    background: #ffee00;
-    box-shadow: 0 0 8px #ffee00, 0 0 16px rgba(255,238,0,0.5);
-    border-radius: 0;
-  }
-
-  body.theme-retro80s .link-card {
-    border-radius: 4px;
-    background: rgba(20,0,40,0.7);
-    border: 1px solid rgba(255,0,255,0.3);
-    border-top: 1px solid rgba(255,238,0,0.2);
-    box-shadow:
-      0 0 0 1px rgba(255,0,255,0.08),
-      inset 0 1px 0 rgba(255,238,0,0.1);
-    color: #f0e0ff;
-    backdrop-filter: blur(8px);
-    transition: all 0.25s;
-  }
-
-  body.theme-retro80s .link-card:hover {
-    background: rgba(40,0,70,0.85);
-    border-color: #ff00ff;
-    box-shadow:
-      0 0 20px rgba(255,0,255,0.4),
-      0 0 50px rgba(255,0,255,0.1),
-      inset 0 1px 0 rgba(255,238,0,0.2);
-    transform: translateY(-3px);
-  }
-
-  body.theme-retro80s .link-card::before {
-    background: linear-gradient(180deg, #ffee00, #ff00ff);
-    border-radius: 0;
-    width: 3px;
-  }
-
-  body.theme-retro80s .link-icon {
-    border-radius: 3px;
-    background: rgba(255,0,255,0.08);
-    border: 1px solid rgba(255,0,255,0.3);
-    box-shadow: 0 0 10px rgba(255,0,255,0.15);
-  }
-
-  body.theme-retro80s .link-title {
-    color: #ffee00;
-    text-shadow: 0 0 8px rgba(255,238,0,0.5);
-    letter-spacing: 0.05em;
-    font-family: 'VT323', monospace;
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  body.theme-retro80s .link-url {
-    color: rgba(255,0,255,0.5);
-    font-size: 10px;
-    letter-spacing: 0.04em;
-  }
-
-  body.theme-retro80s .link-arrow { color: rgba(255,0,255,0.4); }
-  body.theme-retro80s .link-card:hover .link-arrow { color: #ffee00; text-shadow: 0 0 8px #ffee00; }
-
-  body.theme-retro80s .divider-line {
-    background: linear-gradient(90deg, transparent, rgba(255,0,255,0.4), rgba(255,238,0,0.3), transparent);
-  }
-  body.theme-retro80s .divider-label {
-    color: rgba(255,0,255,0.6);
-    text-shadow: 0 0 8px rgba(255,0,255,0.4);
-    letter-spacing: 0.3em;
-    font-family: 'VT323', monospace;
-    font-size: 14px;
-  }
-
-  body.theme-retro80s .theme-switcher {
-    background: rgba(10,0,25,0.9);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255,0,255,0.35);
-    border-radius: 4px;
-    box-shadow: 0 0 15px rgba(255,0,255,0.2);
-  }
-
-  body.theme-retro80s .more-btn {
-    border-radius: 3px;
-    border: 1px solid rgba(255,0,255,0.5);
-    color: #ff00ff;
-    background: rgba(255,0,255,0.07);
-    text-shadow: 0 0 6px rgba(255,0,255,0.5);
-    font-family: 'VT323', monospace;
-    font-size: 14px;
-    letter-spacing: 0.06em;
-  }
-
-  body.theme-retro80s .footer { color: rgba(220,180,255,0.3); font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em; }
-  body.theme-retro80s .footer span { color: #ff00ff; text-shadow: 0 0 10px #ff00ff; }
-
-  body.theme-retro80s .advanced-panel {
-    background: rgba(8,0,20,0.97);
-    border: 1px solid rgba(255,0,255,0.4);
-    border-radius: 4px;
-    box-shadow: 0 0 30px rgba(255,0,255,0.2), 0 20px 60px rgba(0,0,0,0.8);
-  }
-  body.theme-retro80s .panel-label { color: rgba(255,0,255,0.45); border-color: rgba(255,0,255,0.15); font-family: 'VT323', monospace; letter-spacing: 0.15em; font-size: 12px; }
-  body.theme-retro80s .panel-name { color: #ffee00; font-family: 'VT323', monospace; font-size: 15px; letter-spacing: 0.05em; font-weight: 400; }
-  body.theme-retro80s .panel-desc { color: rgba(255,0,255,0.4); }
-  body.theme-retro80s .panel-theme-btn:hover { background: rgba(255,0,255,0.1); border-color: rgba(255,0,255,0.4); }
-
-
-  /* ============================================ */
-  /* ===== TEMA MINIMALIST ◻️ (Swiss Design) ==== */
-  /* ============================================ */
-  body.theme-minimal {
-    --bg: #f8f8f6;
-    --surface: rgba(0,0,0,0.03);
-    --surface-hover: rgba(0,0,0,0.06);
-    --accent: #111111;
-    --accent2: #888888;
-    --text: #111111;
-    --text-muted: #aaaaaa;
-    --border: rgba(0,0,0,0.1);
-    --glow: none;
-    --font-display: 'Outfit', sans-serif;
-    --font-body: 'Outfit', sans-serif;
-  }
-
-  body.theme-minimal::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0; pointer-events: none;
-    background:
-      radial-gradient(ellipse 60% 40% at 90% 5%, rgba(0,0,0,0.02), transparent),
-      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(0,0,0,0.025) 79px, rgba(0,0,0,0.025) 80px),
-      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(0,0,0,0.025) 79px, rgba(0,0,0,0.025) 80px);
-  }
-
-  body.theme-minimal .avatar {
-    border-radius: 50%;
-    border: 1.5px solid rgba(0,0,0,0.15);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    filter: grayscale(0.15);
-  }
-
-  body.theme-minimal .avatar-ring {
-    border-top-color: #111;
-    border-right-color: transparent;
-    border-bottom-color: #bbb;
-    border-left-color: transparent;
-    animation-duration: 14s;
-    border-width: 1px;
-  }
-
-  body.theme-minimal .profile-name {
-    color: #111111;
-    font-weight: 700;
-    letter-spacing: -0.04em;
-    font-size: clamp(28px, 7vw, 40px);
-    text-shadow: none;
-  }
-
-  body.theme-minimal .profile-bio {
-    color: #aaaaaa;
-    font-size: 14px;
-    font-weight: 300;
-    letter-spacing: 0.01em;
-  }
-
-  body.theme-minimal .profile-tag {
-    border-radius: 3px;
-    border: 1px solid rgba(0,0,0,0.15);
-    background: transparent;
-    color: #555555;
-    letter-spacing: 0.1em;
-    font-weight: 500;
-    font-size: 10px;
-  }
-
-  body.theme-minimal .tag-dot {
-    background: #111;
-    box-shadow: none;
-    border-radius: 50%;
-  }
-
-  body.theme-minimal .link-card {
-    border-radius: 8px;
-    background: rgba(255,255,255,0.8);
-    border: 1px solid rgba(0,0,0,0.08);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-    color: #111111;
-    transition: all 0.2s ease;
-  }
-
-  body.theme-minimal .link-card:hover {
-    background: #ffffff;
-    border-color: rgba(0,0,0,0.2);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-    transform: translateY(-2px);
-  }
-
-  body.theme-minimal .link-card::before {
-    background: #111111;
-    border-radius: 8px 0 0 8px;
-    width: 2px;
-  }
-
-  body.theme-minimal .link-icon {
-    border-radius: 8px;
-    background: rgba(0,0,0,0.04);
-    border: 1px solid rgba(0,0,0,0.08);
-    filter: grayscale(0.3);
-  }
-
-  body.theme-minimal .link-title {
-    font-weight: 600;
-    color: #111111;
-    letter-spacing: -0.02em;
-    font-size: 14px;
-  }
-
-  body.theme-minimal .link-url { color: #cccccc; font-size: 11px; }
-  body.theme-minimal .link-arrow { color: #cccccc; font-size: 16px; }
-  body.theme-minimal .link-card:hover .link-arrow { color: #111111; transform: translateX(4px); }
-
-  body.theme-minimal .divider-line {
-    background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
-  }
-  body.theme-minimal .divider-label {
-    color: #cccccc;
-    letter-spacing: 0.25em;
-    font-size: 9px;
-    font-weight: 500;
-  }
-
-  body.theme-minimal .theme-switcher {
-    background: rgba(255,255,255,0.9);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 8px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-  }
-
-  body.theme-minimal .more-btn {
-    border-radius: 5px;
-    border: 1px solid rgba(0,0,0,0.15);
-    color: #444444;
-    background: transparent;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-  }
-
-  body.theme-minimal .footer { color: #cccccc; letter-spacing: 0.15em; }
-  body.theme-minimal .footer span { color: #111111; text-shadow: none; }
-
-  body.theme-minimal .advanced-panel {
-    background: rgba(250,250,248,0.97);
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 12px;
-    box-shadow: 0 16px 48px rgba(0,0,0,0.1);
-  }
-  body.theme-minimal .panel-label { color: #bbbbbb; border-color: rgba(0,0,0,0.07); }
-  body.theme-minimal .panel-name { color: #111111; font-weight: 600; }
-  body.theme-minimal .panel-desc { color: #bbbbbb; }
-  body.theme-minimal .panel-theme-btn:hover { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.12); }
-
 </style>
 </head>
 <body class="theme-aurora">
@@ -1450,7 +1442,6 @@
       </div>
     </div>
 
-    <!-- BARU: Liquid Glass -->
     <div class="panel-theme-btn" data-theme="liquidglass" onclick="setTheme('liquidglass'); closePanel()">
       <div class="panel-swatch" style="background:linear-gradient(135deg,rgba(180,220,255,0.9),rgba(200,180,255,0.8),rgba(150,230,220,0.9)); border:1px solid rgba(255,255,255,0.85); box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 2px 8px rgba(0,100,200,0.15);"></div>
       <div class="panel-info">
@@ -1459,7 +1450,6 @@
       </div>
     </div>
 
-    <!-- BARU: Sakura -->
     <div class="panel-theme-btn" data-theme="sakura" onclick="setTheme('sakura'); closePanel()">
       <div class="panel-swatch" style="background:linear-gradient(135deg,#ffb6c8,#fde8ee,#f9d4e0); border:1px solid rgba(192,104,122,0.3);"></div>
       <div class="panel-info">
@@ -1468,7 +1458,6 @@
       </div>
     </div>
 
-    <!-- BARU: Retro 80s -->
     <div class="panel-theme-btn" data-theme="retro80s" onclick="setTheme('retro80s'); closePanel()">
       <div class="panel-swatch" style="background:linear-gradient(135deg,#ff00ff,#ffee00,#ff6b35); border:1px solid rgba(255,0,255,0.4); box-shadow: 0 0 8px rgba(255,0,255,0.4);"></div>
       <div class="panel-info">
@@ -1477,7 +1466,6 @@
       </div>
     </div>
 
-    <!-- BARU: Minimalist -->
     <div class="panel-theme-btn" data-theme="minimal" onclick="setTheme('minimal'); closePanel()">
       <div class="panel-swatch" style="background:#f8f8f6; border:1.5px solid #111; border-radius:4px;"></div>
       <div class="panel-info">
@@ -1514,6 +1502,7 @@
     <div class="divider-line"></div>
   </div>
 
+  <!-- ===== LINK YANG SUDAH ADA (6) ===== -->
   <a class="link-card" href="https://malaysia-calender-2026.vercel.app/" target="_blank">
     <div class="link-icon">📅</div>
     <div class="link-info">
@@ -1564,6 +1553,97 @@
     <div class="link-info">
       <div class="link-title">Passport Malaysia</div>
       <div class="link-url">passport-malaysia.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <!-- ===== LINK BARU (10) ===== -->
+  <a class="link-card" href="https://hari-raya.vercel.app/" target="_blank">
+    <div class="link-icon">🌙</div>
+    <div class="link-info">
+      <div class="link-title">Hari Raya</div>
+      <div class="link-url">hari-raya.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://malaysia-calender-2025.vercel.app/" target="_blank">
+    <div class="link-icon">📅</div>
+    <div class="link-info">
+      <div class="link-title">Kalendar Malaysia 2025</div>
+      <div class="link-url">malaysia-calender-2025.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://get-code-1.vercel.app/" target="_blank">
+    <div class="link-icon">💻</div>
+    <div class="link-info">
+      <div class="link-title">Get Code</div>
+      <div class="link-url">get-code-1.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://malaysia-calender-2022.vercel.app/" target="_blank">
+    <div class="link-icon">📅</div>
+    <div class="link-info">
+      <div class="link-title">Kalendar Malaysia 2022</div>
+      <div class="link-url">malaysia-calender-2022.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://malaysia-calender-2023.vercel.app/" target="_blank">
+    <div class="link-icon">📅</div>
+    <div class="link-info">
+      <div class="link-title">Kalendar Malaysia 2023</div>
+      <div class="link-url">malaysia-calender-2023.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://password-generator-zahir.vercel.app/" target="_blank">
+    <div class="link-icon">🔐</div>
+    <div class="link-info">
+      <div class="link-title">Password Generator</div>
+      <div class="link-url">password-generator-zahir.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://pramlee-inflasi.vercel.app/" target="_blank">
+    <div class="link-icon">📈</div>
+    <div class="link-info">
+      <div class="link-title">Pramlee Inflasi</div>
+      <div class="link-url">pramlee-inflasi.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://ss-web-1.vercel.app/" target="_blank">
+    <div class="link-icon">📸</div>
+    <div class="link-info">
+      <div class="link-title">SS Web</div>
+      <div class="link-url">ss-web-1.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://temp-story-ig.vercel.app/" target="_blank">
+    <div class="link-icon">📱</div>
+    <div class="link-info">
+      <div class="link-title">Temp Story IG</div>
+      <div class="link-url">temp-story-ig.vercel.app</div>
+    </div>
+    <div class="link-arrow">→</div>
+  </a>
+
+  <a class="link-card" href="https://winrate-calculator-ml.vercel.app/" target="_blank">
+    <div class="link-icon">🎮</div>
+    <div class="link-info">
+      <div class="link-title">Winrate Calculator ML</div>
+      <div class="link-url">winrate-calculator-ml.vercel.app</div>
     </div>
     <div class="link-arrow">→</div>
   </a>
